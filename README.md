@@ -1,5 +1,9 @@
 # SolinfBroker
-Project Broker Solinftec microservices 
+É um HomeBroker para fazer compras e vendas de ações das empresas cadastradas. Possui um ambiente de gestão da Empresa e de usuários. E possui uma dashboard para compra e venda de papeis.
+
+### Casos de Uso
+Para visualizar o casos de uso, precisa abrir este site: https://draw.io e importar o arquivo Diagramas1.1.drawio.
+
 
 ## FEATURES
 
