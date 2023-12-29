@@ -1,0 +1,41 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Criar network
+      run: docker network create --subnet=172.20.0.0/16 solinfbroker-network
+    
+    - name: Rodar o banco de dados
+      run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
+    
+    - name: Rodar Registro Service
+      run: cd teste-microservice/ && docker-compose -f ms-registro-docker-compose.yml up -d
+    
+    - name: Rodar Gateway
+      run: cd teste-microservice/ && docker-compose -f ms-gateway-docker-compose.yml up -d
+
+    - name: Rodar Autenticação
+      run: cd teste-microservice/ && docker-compose -f ms-autenticacao-docker-compose.yml up -d
+
+    - name: Rodar Autenticação Entidades
+      run: cd teste-microservice/ && docker-compose -f ms-entidades-docker-compose.yml up -d
