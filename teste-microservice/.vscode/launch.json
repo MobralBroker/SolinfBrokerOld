@@ -1,0 +1,47 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiEntidadesApplication<api-entidades>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.solinfbroker.apientidades.ApiEntidadesApplication",
+            "projectName": "api-entidades",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=38475 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=api-entidades"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiAutenticacaoApplication<api-autenticacao>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.solinfbroker.apiautenticacao.ApiAutenticacaoApplication",
+            "projectName": "api-autenticacao",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=45083 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=api-autenticacao"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-RegistroApplication<registro>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.solinfbroker.registro.RegistroApplication",
+            "projectName": "registro",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=45057 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=registro"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiGatewayApplication<api-gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.solinfbroker.apigateway.ApiGatewayApplication",
+            "projectName": "api-gateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
