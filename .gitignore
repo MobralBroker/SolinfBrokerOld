@@ -1,20 +1,16 @@
 ### VS Code ###
-!**/teste-microservice/.vscode/
-!**/teste-microservice/postgres-data/
-!**/postgres-data/
-!**/teste-microservice/api-autenticacao/src/main/**/target/
-!**/teste-microservice/api-autenticacao/src/test/**/target/
-!**/teste-microservice/api-autenticacao/.mvn/wrapper/maven-wrapper.jar
-!**/teste-microservice/api-autenticacao/database-doker/
+*.jar
+teste-microservice/.vscode
+teste-microservice/postgres-data
+teste-microservice/api-autenticacao/target
+teste-microservice/api-autenticacao/.mvn/wrapper/maven-wrapper.jar
+teste-microservice/api-autenticacao/database-doker
 
-!**/teste-microservice/api-entidades/src/main/**/target/
-!**/teste-microservice/api-entidades/src/test/**/target/
-!**/teste-microservice/api-entidades/.mvn/wrapper/maven-wrapper.jar
+teste-microservice/api-entidades/target
+teste-microservice/api-entidades/.mvn/wrapper/maven-wrapper.jar
 
-!**/teste-microservice/api-gateway/src/main/**/target/
-!**/teste-microservice/api-gateway/src/test/**/target/
-!**/teste-microservice/api-gateway/.mvn/wrapper/maven-wrapper.jar
+teste-microservice/api-gateway/target
+teste-microservice/api-gateway/.mvn/wrapper/maven-wrapper.jar
 
-!**/teste-microservice/registro/src/main/**/target/
-!**/teste-microservice/registro/src/test/**/target/
-!**/teste-microservice/registro/.mvn/wrapper/maven-wrapper.jar
+teste-microservice/registro/target
+teste-microservice/registro/.mvn/wrapper/maven-wrapper.jar
