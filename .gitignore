@@ -1,6 +1,7 @@
 ### VS Code ###
 !**/teste-microservice/.vscode/
 !**/teste-microservice/postgres-data/
+!**/postgres-data/
 !**/teste-microservice/api-autenticacao/src/main/**/target/
 !**/teste-microservice/api-autenticacao/src/test/**/target/
 !**/teste-microservice/api-autenticacao/.mvn/wrapper/maven-wrapper.jar
