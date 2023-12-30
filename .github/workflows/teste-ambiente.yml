@@ -10,9 +10,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "michael" ]
 
 jobs:
   build:
@@ -39,3 +37,23 @@ jobs:
 
     - name: Rodar Autenticação Entidades
       run: cd teste-microservice/ && docker-compose -f ms-entidades-docker-compose.yml up -d
+  
+  subir-imagem:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Logar no DockerHub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+      - name: Verificar a imagem
+        run: docker image ls
+        
+      - name: Subir Imagem do gateway
+        run: docker push gateway-solinfbroker
+  
+  # deploy:
+  #   needs: subir-imagem:
+  #   runs-on: ubuntu-latest
