@@ -36,7 +36,9 @@ jobs:
       run: docker image ls
             
     - name: Subir Imagem do gateway
-      run: docker push teste-microservice_gateway-solinfbroker:latest
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/teste-microservice_gateway-solinfbroker
+    - name: subir
+      run: docker push teste-microservice_gateway-solinfbroker
 
 
 
