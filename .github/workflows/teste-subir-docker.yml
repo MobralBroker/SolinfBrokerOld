@@ -1,0 +1,61 @@
+name: Subir imagem para o Docker
+
+on:
+  push:
+    branches: [ "michael" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Criar network
+      run: docker network create --subnet=172.20.0.0/16 solinfbroker-network
+    
+    # - name: Rodar o banco de dados
+    #   run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
+    
+    # - name: Rodar Registro Service
+    #   run: cd teste-microservice/ && docker-compose -f ms-registro-docker-compose.yml up -d
+    
+    - name: Rodar Gateway
+      run: cd teste-microservice/ && docker-compose -f ms-gateway-docker-compose.yml up -d
+
+    # - name: Rodar Autenticação
+    #   run: cd teste-microservice/ && docker-compose -f ms-autenticacao-docker-compose.yml up -d
+
+    # - name: Rodar Autenticação Entidades
+    #   run: cd teste-microservice/ && docker-compose -f ms-entidades-docker-compose.yml up -d
+    - name: Logar no DockerHub
+      run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+        
+    - name: Verificar a imagem
+      run: docker image ls
+            
+    - name: Subir Imagem do gateway
+      run: docker push teste-microservice_gateway-solinfbroker
+
+
+
+#   subir-imagem:
+#     needs: build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Logar no DockerHub
+#         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+#       - name: Verificar a imagem
+#         run: docker image ls
+        
+#       - name: Subir Imagem do gateway
+#         run: docker push teste-microservice_gateway-solinfbroker
+  
+  # deploy:
+  #   needs: subir-imagem:
+  #   runs-on: ubuntu-latest
