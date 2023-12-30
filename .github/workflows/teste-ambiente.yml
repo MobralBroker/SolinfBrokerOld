@@ -52,7 +52,7 @@ jobs:
         run: docker image ls
         
       - name: Subir Imagem do gateway
-        run: docker push gateway-solinfbroker
+        run: docker push teste-microservice_gateway-solinfbroker
   
   # deploy:
   #   needs: subir-imagem:
