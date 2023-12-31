@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: entidades
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://172.20.0.3:8761/eureka

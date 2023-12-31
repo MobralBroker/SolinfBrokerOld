@@ -1,0 +1,15 @@
+version: '3.1'
+services: 
+    gateway-solinfbroker:
+        build: ./api-gateway/
+        ports:
+            - "8080:8080"
+            # - "8761:8761"
+        networks:
+            solinfbroker-network:
+                ipv4_address: "172.20.0.5"
+
+networks:
+    solinfbroker-network:
+        external: true
+        
