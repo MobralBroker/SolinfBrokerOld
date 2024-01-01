@@ -48,11 +48,11 @@ jobs:
 
     # Adicionar tag na imagem do Banco de Dados
     - name: Adicionar tag na imagem do Banco de dados
-      run: docker tag banco-postgres-mercado michaelcesar/banco-postgres-mercado:0.0.2
+      run: docker tag banco-postgres-mercado michaelcesar/banco-postgres-mercado
    
     # Subir imagem do banco de dados para o dockerhub 
     - name: subir imagem do banco de dados
-      run: docker push michaelcesar/banco-postgres-mercado:0.0.2
+      run: docker push michaelcesar/banco-postgres-mercado
 
     # Adicionar tag na imagem do Registro Serviçe
     - name: Adicionar tag na imagem do Registro Service
@@ -95,7 +95,7 @@ jobs:
       run: docker network ls|grep solinfbroker-network > /dev/null || docker network create --subnet=172.20.0.0/16 solinfbroker-network
 
     - name: Baixar imagem do banco de dados
-      run: docker pull michaelcesar/banco-postgres-mercado 
+      run: docker pull michaelcesar/banco-postgres-mercado
 
     - name: Baixar imagem do Registro Service
       run: docker pull michaelcesar/teste-microservice_registro-solinfbroker
