@@ -48,7 +48,7 @@ jobs:
 
     # Adicionar tag na imagem do Banco de Dados
     - name: Adicionar tag na imagem do Banco de dados
-      run: docker tag postgres michaelcesar/banco-postgres-mercado:0.0.2
+      run: docker tag banco-postgres-mercado michaelcesar/banco-postgres-mercado:0.0.2
    
     # Subir imagem do banco de dados para o dockerhub 
     - name: subir imagem do banco de dados
