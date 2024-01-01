@@ -20,10 +20,12 @@ jobs:
     # - name: Rodar o banco de dados
     #   run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
     - name: build banco de dados
-      run: cd teste-microservice/banco-de-dados/ && docker build -t postgres-com-script .
+      run: cd teste-microservice/banco-de-dados/ && docker build -t banco-postgres-mercado .
     
-    - name: ver imagens
-      run: docker image ls
+    - name: rodar banco de dados
+      run: docker run -d --name banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 banco-postgres-mercado
+    - name: ver containers
+      run: docker container ls
   #   # Criar imagem e rodar aplicação de Registro de Serviço
   #   - name: Rodar Registro Service
   #     run: cd teste-microservice/ && docker-compose -f ms-registro-docker-compose.yml up -d
