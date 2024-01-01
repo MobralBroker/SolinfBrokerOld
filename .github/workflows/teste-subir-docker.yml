@@ -42,11 +42,11 @@ jobs:
 
     # Adicionar tag na imagem do Banco de Dados
     - name: Adicionar tag na imagem do Banco de dados
-      run: docker tag postgres michaelcesar/postgres
+      run: docker tag postgres michaelcesar/postgres:0.0.1
    
     # Subir imagem do banco de dados para o dockerhub 
     - name: subir imagem do banco de dados
-      run: docker push michaelcesar/postgres     
+      run: docker push michaelcesar/postgres:0.0.1     
 
     # Adicionar tag na imagem do Registro Serviçe
     - name: Adicionar tag na imagem do Registro Service
