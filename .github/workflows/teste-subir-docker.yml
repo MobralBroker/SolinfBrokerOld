@@ -20,7 +20,7 @@ jobs:
     # - name: Rodar o banco de dados
     #   run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
     - name: build banco de dados
-      run: cd teste-microservice/banco-de-dados/ docker build -t postgres-com-script .
+      run: cd teste-microservice/banco-de-dados/ && docker build -t postgres-com-script .
     
     - name: ver imagens
       run: docker image ls
