@@ -42,7 +42,7 @@ jobs:
 
     # Adicionar tag na imagem do Banco de Dados
     - name: Adicionar tag na imagem do Banco de dados
-      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/postgres
+      run: docker tag postgres michaelcesar/postgres
    
     # Subir imagem do banco de dados para o dockerhub 
     - name: subir imagem do banco de dados
@@ -50,7 +50,7 @@ jobs:
 
     # Adicionar tag na imagem do Registro Serviçe
     - name: Adicionar tag na imagem do Registro Service
-      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/postgres
+      run: docker tag teste-microservice_registro-solinfbroker michaelcesar/teste-microservice_registro-solinfbroker
     
     # Subir imagem do registro para o dockerhub 
     - name: Subir imagem do registro para o dockerhub
