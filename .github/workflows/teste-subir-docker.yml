@@ -142,5 +142,5 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Executando aplicação de Entidade
-      run: docker run -d --name entidade-solinfbroker --network solinfbroker-network -p 8082:8082 michaelcesar/teste-microservice_entidade-solinfbroker
+      run: docker run -d --name entidade-solinfbroker --network solinfbroker-network -p 8082:8082 michaelcesar/teste-microservice_entidades-solinfbroker
       
