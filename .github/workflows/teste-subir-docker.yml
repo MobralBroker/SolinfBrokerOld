@@ -114,12 +114,12 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Executando aplicação do banco de dados
-      run: docker run -d --name michaelcesar/banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 banco-postgres-mercado
+      run: docker run -d --name banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 michaelcesar/banco-postgres-mercado
 
   run-registro:
     needs: run-banco
     runs-on: self-hosted
     steps:
     - name: Executando aplicação de registro de Serviço
-      run: docker run -d --name michaelcesar/registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 registro-solinfbroker
+      run: docker run -d --name registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 michaelcesar/registro-solinfbroker
    
