@@ -121,5 +121,26 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Executando aplicação de registro de Serviço
-      run: docker run -d --name registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 michaelcesar/registro-solinfbroker
-   
+      run: docker run -d --name registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 michaelcesar/teste-microservice_registro-solinfbroker
+
+  run-gateway:
+    needs: run-registro
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de Gateway
+      run: docker run -d --name gateway-solinfbroker --network solinfbroker-network --ip 172.20.0.5 -p 8080:8080 michaelcesar/teste-microservice_gateway-solinfbroker
+
+  run-autenticacao:
+    needs: run-gateway
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de Autenticação
+      run: docker run -d --name autenticacao-solinfbroker --network solinfbroker-network -p 8081:8081 michaelcesar/teste-microservice_autenticacao-solinfbroker
+  
+  run-entidade:
+    needs: run-autenticacao
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de Entidade
+      run: docker run -d --name entidade-solinfbroker --network solinfbroker-network -p 8082:8082 michaelcesar/teste-microservice_entidade-solinfbroker
+      
