@@ -1,4 +1,4 @@
-name: Subir imagem para o Docker
+name: Subir Aplicação
 
 on:
   push:
