@@ -11,42 +11,98 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-
+    
+    # Criar a Network 
     - name: Criar network
       run: docker network create --subnet=172.20.0.0/16 solinfbroker-network
+
+    # Criar imagem e roda Banco de Dados
+    - name: Rodar o banco de dados
+      run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
     
-    # - name: Rodar o banco de dados
-    #   run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
+    # Criar imagem e rodar aplicação de Registro de Serviço
+    - name: Rodar Registro Service
+      run: cd teste-microservice/ && docker-compose -f ms-registro-docker-compose.yml up -d
     
-    # - name: Rodar Registro Service
-    #   run: cd teste-microservice/ && docker-compose -f ms-registro-docker-compose.yml up -d
-    
+    # Criar imagem e rodar aplicação de Gateway
     - name: Rodar Gateway
       run: cd teste-microservice/ && docker-compose -f ms-gateway-docker-compose.yml up -d
 
-    # - name: Rodar Autenticação
-    #   run: cd teste-microservice/ && docker-compose -f ms-autenticacao-docker-compose.yml up -d
+    # Criar imagem e rodar aplicação de Autenticação
+    - name: Rodar Autenticação
+      run: cd teste-microservice/ && docker-compose -f ms-autenticacao-docker-compose.yml up -d
 
-    # - name: Rodar Autenticação Entidades
-    #   run: cd teste-microservice/ && docker-compose -f ms-entidades-docker-compose.yml up -d
+    # Criar imagem e rodar aplicação de Entidades
+    - name: Rodar Entidades
+      run: cd teste-microservice/ && docker-compose -f ms-entidades-docker-compose.yml up -d
+
+    # Logar na conta do DockerHub
     - name: Logar no DockerHub
       run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} docker.io
-        
-    - name: Verificar a imagem
-      run: docker image ls
-            
-    - name: Subir Imagem do gateway
-      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/teste-microservice_gateway-solinfbroker
-    - name: subir
-      run: docker push michaelcesar/teste-microservice_gateway-solinfbroker
+
+    # Adicionar tag na imagem do Banco de Dados
+    - name: Adicionar tag na imagem do Banco de dados
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/postgres
+   
+    # Subir imagem do banco de dados para o dockerhub 
+    - name: subir imagem do banco de dados
+      run: docker push michaelcesar/postgres     
+
+    # Adicionar tag na imagem do Registro Serviçe
+    - name: Adicionar tag na imagem do Registro Service
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/postgres
+    
+    # Subir imagem do registro para o dockerhub 
+    - name: Subir imagem do registro para o dockerhub
+      run: docker push michaelcesar/teste-microservice_registro-solinfbroker
   
+    # Adicionar tag na imagem do gateway
+    - name: Adicionar tag na imagem do gateway
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/teste-microservice_gateway-solinfbroker
+
+    # Subir imagem do gateway para o dockerhub 
+    - name: subir imagem do gateway para o dockerhub 
+      run: docker push michaelcesar/teste-microservice_gateway-solinfbroker
+
+    # Adicionar tag na imagem do Autenticação
+    - name: Adicionar tag na imagem do autenticação
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/teste-microservice_autenticacao-solinfbroker
+    
+    # Subir imagem do autenticação para o dockerhub 
+    - name: subir imagem do autenticação para o dockerhub 
+      run: docker push michaelcesar/teste-microservice_autenticacao-solinfbroker
+
+    # Adicionar tag na imagem do Entidades
+    - name: Adicionar tag na imagem do entidades
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/teste-microservice_entidades-solinfbroker
+    
+    # Subir imagem do entidades para o dockerhub 
+    - name: subir imagem do entidades para o dockerhub 
+      run: docker push michaelcesar/teste-microservice_entidades-solinfbroker
+
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-    - name: Baixar imagem
+
+    - name: Criar network se não existir
+      run: docker network ls|grep solinfbroker-network > /dev/null || docker network create --subnet=172.20.0.0/16 solinfbroker-network
+
+    - name: Baixar imagem do banco de dados
+      run: docker pull michaelcesar/postgres
+
+    - name: Baixar imagem do Registro Service
+      run: docker pull michaelcesar/teste-microservice_registro-solinfbroker
+
+    - name: Baixar imagem do Gateway
       run: docker pull michaelcesar/teste-microservice_gateway-solinfbroker
-    
+
+    - name: Baixar imagem da autenticação
+      run: docker pull michaelcesar/teste-microservice_autenticacao-solinfbroker
+
+    - name: Baixar imagem da entidades
+      run: docker pull michaelcesar/teste-microservice_entidades-solinfbroker
+
     
 
 #   subir-imagem:
