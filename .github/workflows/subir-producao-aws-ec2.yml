@@ -2,7 +2,7 @@ name: Subir Aplicação com DockerHub | GitHub Runner | AWS EC2
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "michael" ]
 
 jobs:
   build:

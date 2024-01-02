@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-solinfbroker
+  namespace: solinfbroker
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: database-solinfbroker
+  template:
+    metadata:
+      labels:
+        app: database-solinfbroker
+    spec:
+      containers:
+      - name: database-solinfbroker
+        image: postgres
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "root"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-data-volume
+          mountPath: /var/lib/postgresql/data
+        - name: initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: postgres-data-volume
+        persistentVolumeClaim:
+          claimName: postgres-data-pvc
+      - name: initdb
+        configMap:
+          name: postgres-init-script
+
