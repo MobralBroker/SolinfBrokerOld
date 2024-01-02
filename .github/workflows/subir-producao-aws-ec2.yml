@@ -1,0 +1,145 @@
+name: Subir Aplicação com DockerHub | GitHub Runner | AWS EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Criar a Network 
+    - name: Criar network
+      run: docker network create --subnet=172.20.0.0/16 solinfbroker-network
+
+    # # Criar imagem e roda Banco de Dados - metodo docker-compose
+    # - name: Rodar o banco de dados
+    #   run: cd teste-microservice/ && docker-compose -f database-docker-compose.yml up -d
+
+    - name: build banco de dados
+      run: cd teste-microservice/banco-de-dados/ && docker build -t banco-postgres-mercado .
+    
+    - name: rodar banco de dados
+      run: docker run -d --name banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 banco-postgres-mercado
+    
+    # Criar imagem e rodar aplicação de Registro de Serviço
+    - name: Rodar Registro Service
+      run: cd teste-microservice/ && docker-compose -f ms-registro-docker-compose.yml up -d
+    
+    # Criar imagem e rodar aplicação de Gateway
+    - name: Rodar Gateway
+      run: cd teste-microservice/ && docker-compose -f ms-gateway-docker-compose.yml up -d
+
+    # Criar imagem e rodar aplicação de Autenticação
+    - name: Rodar Autenticação
+      run: cd teste-microservice/ && docker-compose -f ms-autenticacao-docker-compose.yml up -d
+
+    # Criar imagem e rodar aplicação de Entidades
+    - name: Rodar Entidades
+      run: cd teste-microservice/ && docker-compose -f ms-entidades-docker-compose.yml up -d
+
+    # Logar na conta do DockerHub
+    - name: Logar no DockerHub
+      run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} docker.io
+
+    # Adicionar tag na imagem do Banco de Dados
+    - name: Adicionar tag na imagem do Banco de dados
+      run: docker tag banco-postgres-mercado michaelcesar/banco-postgres-mercado
+   
+    # Subir imagem do banco de dados para o dockerhub 
+    - name: subir imagem do banco de dados
+      run: docker push michaelcesar/banco-postgres-mercado
+
+    # Adicionar tag na imagem do Registro Serviçe
+    - name: Adicionar tag na imagem do Registro Service
+      run: docker tag teste-microservice_registro-solinfbroker michaelcesar/teste-microservice_registro-solinfbroker
+    
+    # Subir imagem do registro para o dockerhub 
+    - name: Subir imagem do registro para o dockerhub
+      run: docker push michaelcesar/teste-microservice_registro-solinfbroker
+  
+    # Adicionar tag na imagem do gateway
+    - name: Adicionar tag na imagem do gateway
+      run: docker tag teste-microservice_gateway-solinfbroker michaelcesar/teste-microservice_gateway-solinfbroker
+
+    # Subir imagem do gateway para o dockerhub 
+    - name: subir imagem do gateway para o dockerhub 
+      run: docker push michaelcesar/teste-microservice_gateway-solinfbroker
+
+    # Adicionar tag na imagem do Autenticação
+    - name: Adicionar tag na imagem do autenticação
+      run: docker tag teste-microservice_autenticacao-solinfbroker michaelcesar/teste-microservice_autenticacao-solinfbroker
+    
+    # Subir imagem do autenticação para o dockerhub 
+    - name: subir imagem do autenticação para o dockerhub 
+      run: docker push michaelcesar/teste-microservice_autenticacao-solinfbroker
+
+    # Adicionar tag na imagem do Entidades
+    - name: Adicionar tag na imagem do entidades
+      run: docker tag teste-microservice_entidades-solinfbroker michaelcesar/teste-microservice_entidades-solinfbroker
+    
+    # Subir imagem do entidades para o dockerhub 
+    - name: subir imagem do entidades para o dockerhub 
+      run: docker push michaelcesar/teste-microservice_entidades-solinfbroker
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+
+    - name: Criar network se não existir
+      run: docker network ls|grep solinfbroker-network > /dev/null || docker network create --subnet=172.20.0.0/16 solinfbroker-network
+
+    - name: Baixar imagem do banco de dados
+      run: docker pull michaelcesar/banco-postgres-mercado
+
+    - name: Baixar imagem do Registro Service
+      run: docker pull michaelcesar/teste-microservice_registro-solinfbroker
+
+    - name: Baixar imagem do Gateway
+      run: docker pull michaelcesar/teste-microservice_gateway-solinfbroker
+
+    - name: Baixar imagem da autenticação
+      run: docker pull michaelcesar/teste-microservice_autenticacao-solinfbroker
+
+    - name: Baixar imagem da entidades
+      run: docker pull michaelcesar/teste-microservice_entidades-solinfbroker
+    
+  run-banco:
+    needs: deploy
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação do banco de dados
+      run: docker run -d --name banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 michaelcesar/banco-postgres-mercado
+
+  run-registro:
+    needs: run-banco
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de registro de Serviço
+      run: docker run -d --name registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 michaelcesar/teste-microservice_registro-solinfbroker
+
+  run-gateway:
+    needs: run-registro
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de Gateway
+      run: docker run -d --name gateway-solinfbroker --network solinfbroker-network --ip 172.20.0.5 -p 8080:8080 michaelcesar/teste-microservice_gateway-solinfbroker
+
+  run-autenticacao:
+    needs: run-gateway
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de Autenticação
+      run: docker run -d --name autenticacao-solinfbroker --network solinfbroker-network -p 8081:8081 michaelcesar/teste-microservice_autenticacao-solinfbroker
+  
+  run-entidade:
+    needs: run-autenticacao
+    runs-on: self-hosted
+    steps:
+    - name: Executando aplicação de Entidade
+      run: docker run -d --name entidades-solinfbroker --network solinfbroker-network -p 8082:8082 michaelcesar/teste-microservice_entidades-solinfbroker
