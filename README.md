@@ -57,3 +57,10 @@ DashBoard
 Empresa
 
 [GET] Detalhar informações da empresa
+
+# Banco de Dados
+## Diagramas do Banco de Dados
+
+Os arquivos explicando cada um dos campos, tabelas e relações do banco de dados se encontram no arquivo "Diagrama do Banco.drawio" e na pasta "banco_de_dados"
+
+O scritp corrigido do banco se encontra no arquivo "Script_criacao_BD.sql".
