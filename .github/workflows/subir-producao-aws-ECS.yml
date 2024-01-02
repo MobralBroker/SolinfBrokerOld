@@ -23,40 +23,40 @@ jobs:
     - name: build banco de dados
       run: cd teste-microservice/banco-de-dados/ && docker build -t banco-postgres-mercado .
     
-    - name: rodar banco de dados
-      run: docker run -d --name banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 banco-postgres-mercado
+    # - name: rodar banco de dados
+    #   run: docker run -d --name banco-postgres-mercado-solinfbroker --network solinfbroker-network --ip 172.20.0.2 -e POSTGRES_PASSWORD=root -p 5432:5432 banco-postgres-mercado
     
     # Criar imagem da aplicação Registro de Serviço
     - name: Criar imagem Registro Service
       run: cd teste-microservice/registro/ && docker build -t registro-solinfbroker .
 
-    # Rodar aplicação de Registro de Serviço
-    - name: Rodar Registro Service
-      run: docker run -d --name registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 registro-solinfbroker
+    # # Rodar aplicação de Registro de Serviço
+    # - name: Rodar Registro Service
+    #   run: docker run -d --name registro-solinfbroker --network solinfbroker-network --ip 172.20.0.3 -p 8761:8761 registro-solinfbroker
     
     # Criar imagem da aplicação Gateway
     - name: Criar imagem Gateway
       run: cd teste-microservice/api-gateway/ && docker build -t gateway-solinfbroker .
 
-    # Rodar aplicação de Gateway
-    - name: Rodar Gateway
-      run: docker run -d --name gateway-solinfbroker --network solinfbroker-network --ip 172.20.0.5 -p 8080:8080 gateway-solinfbroker
+    # # Rodar aplicação de Gateway
+    # - name: Rodar Gateway
+    #   run: docker run -d --name gateway-solinfbroker --network solinfbroker-network --ip 172.20.0.5 -p 8080:8080 gateway-solinfbroker
     
     # Criar imagem da aplicação Autenticação
     - name: Criar imagem Autenticação
       run: cd teste-microservice/api-autenticacao/ && docker build -t autenticacao-solinfbroker .
 
-    # Rodar aplicação de Autenticação
-    - name: Rodar Autenticação
-      run: docker run -d --name autenticacao-solinfbroker --network solinfbroker-network -p 8081:8081 autenticacao-solinfbroker
+    # # Rodar aplicação de Autenticação
+    # - name: Rodar Autenticação
+    #   run: docker run -d --name autenticacao-solinfbroker --network solinfbroker-network -p 8081:8081 autenticacao-solinfbroker
     
     # Criar imagem da aplicação Entidades
     - name: Criar imagem Entidades
       run: cd teste-microservice/api-entidades/ && docker build -t entidades-solinfbroker .
 
-    # Rodar aplicação de Entidades
-    - name: Rodar Entidades
-      run: docker run -d --name entidades-solinfbroker --network solinfbroker-network -p 8081:8081 entidades-solinfbroker
+    # # Rodar aplicação de Entidades
+    # - name: Rodar Entidades
+    #   run: docker run -d --name entidades-solinfbroker --network solinfbroker-network -p 8082:8082 entidades-solinfbroker
       
     # Logar na conta do DockerHub
     - name: Logar no DockerHub
