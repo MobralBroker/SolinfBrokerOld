@@ -59,8 +59,24 @@ Empresa
 [GET] Detalhar informações da empresa
 
 # Banco de Dados
-## Diagramas do Banco de Dados
 
+## Diagramas do Banco de Dados
 Os arquivos explicando cada um dos campos, tabelas e relações do banco de dados se encontram no arquivo "Diagrama do Banco.drawio" e na pasta "banco_de_dados"
 
 O scritp corrigido do banco se encontra no arquivo "Script_criacao_BD.sql".
+
+## Scripts do Banco de Dados
+* Population.sql
+  * O script de Population serve para inserir nas tableas: cliente, pessoafisica, pessoajuridica, empresa, ativo, carteira
+* Population Orders.sql
+  * O script serve para preencher as tabelas de ordens de compra, tanto compra como venda
+
+## Views e Procedures
+* View Cliente.sql
+  * Script da view que valida se é cliente fisico ou juridico e trás o resultado da busca
+* Procedure Cliente.sql
+  * Script que gera uma procedure no banco que possibilita buscas por CPF, CNPJ e ID e valida se é pessoa física ou juridica no momento que faz a busca no banco de dados
+
+### Observações
+
+É necessário no momento da execução dos script verificar se está sendo inserido nas tabelas informações que são dependentes, por exemplo (Inserir pessoafisica e pessoajuridica antes de incluir cliente no sistema).
