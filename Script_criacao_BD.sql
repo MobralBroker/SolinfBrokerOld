@@ -1,1 +1,114 @@
-CREATE DATABASE "SolinfBroker" WITH OWNER = postgres ENCODING = 'UTF8' TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False; DROP TABLE IF EXISTS public.cliente_tipo;CREATE TABLE IF NOT EXISTS public.cliente_tipo( codigo integer NOT NULL, tipo bit(1) NOT NULL, dinheiro_disponivel double precision NOT NULL, senha character varying(20) COLLATE pg_catalog."default" NOT NULL, CONSTRAINT cliente_tipo_pkey PRIMARY KEY (codigo))TABLESPACE pg_default;CREATE TABLE IF NOT EXISTS public.cliente_pf( codigo integer NOT NULL, cpf character varying(11) COLLATE pg_catalog."default" NOT NULL, nome character varying(150) COLLATE pg_catalog."default" NOT NULL, nascimento date NOT NULL, CONSTRAINT cliente_pf_pkey PRIMARY KEY (codigo))TABLESPACE pg_default;ALTER TABLE cliente_pf ADD CONSTRAINT cliente_pf_fkey FOREIGN KEY(codigo) REFERENCES cliente_tipo(codigo);ALTER TABLE cliente_pf ADD CONSTRAINT cliente_pf_uq UNIQUE(cpf);CREATE TABLE IF NOT EXISTS public.cliente_pj( codigo integer NOT NULL, cnpj character varying(14) COLLATE pg_catalog."default" NOT NULL, nome_fantasia character varying(150) COLLATE pg_catalog."default" NOT NULL, nome_real character varying(150) COLLATE pg_catalog."default" NOT NULL, CONSTRAINT cliente_pj_pkey PRIMARY KEY (codigo))TABLESPACE pg_default;ALTER TABLE cliente_pj ADD CONSTRAINT cliente_pj_fkey FOREIGN KEY(codigo) REFERENCES cliente_tipo(codigo);ALTER TABLE cliente_pj ADD CONSTRAINT cliente_pj_uq UNIQUE(cnpj);CREATE TABLE IF NOT EXISTS public.ordem( codigo_ordem integer NOT NULL, codigo_cliente integer NOT NULL, tipo_ordem bit(1) NOT NULL, valor_ofertado double precision NOT NULL, quantidade integer NOT NULL, execucao bit(1) NOT NULL, data timestamp without time zone NOT NULL, CONSTRAINT ordem_pkey PRIMARY KEY (codigo_ordem))TABLESPACE pg_default;ALTER TABLE ordem ADD CONSTRAINT ordem_fkey FOREIGN KEY(codigo_cliente) REFERENCES cliente_tipo(codigo);CREATE TABLE IF NOT EXISTS public.cliente_ativos_financeiros( codigo integer NOT NULL, cnpj_ativo character varying(14) COLLATE pg_catalog."default" NOT NULL, nome_real_empresa character varying(150) COLLATE pg_catalog."default" NOT NULL, qtd_acoes integer NOT NULL, valor_negocio double precision NOT NULL, CONSTRAINT cliente_ativos_financeiros_pkey PRIMARY KEY (codigo, cnpj_ativo))TABLESPACE pg_default;ALTER TABLE cliente_ativos_financeiros ADD CONSTRAINT cliente_ativos_financeiros_fkey FOREIGN KEY(codigo) REFERENCES cliente_tipo(codigo);
+-- Tabelas base para o sistema SolinfBroker
+-- Tabela para armazenar informações sobre clientes
+CREATE TABLE cliente (
+    id_cliente SERIAL PRIMARY KEY NOT NULL,
+    tipo VARCHAR(2) NOT NULL,
+    usuario VARCHAR(50) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    saldo DOUBLE PRECISION NOT NULL
+);
+
+-- Tabela para armazenar informações sobre pessoas físicas, com chave estrangeira referenciando a tabela cliente
+CREATE TABLE pessoafisica (
+    id_pessoafisica SERIAL PRIMARY KEY NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
+    id_cliente INT NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    nascimento DATE NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+-- Tabela para armazenar informações sobre pessoas jurídicas, com chave estrangeira referenciando a tabela cliente
+CREATE TABLE pessoajuridica (
+    id_pessoajuridica SERIAL PRIMARY KEY NOT NULL,
+    cnpj VARCHAR(14) NOT NULL,
+    id_cliente INT NOT NULL,
+    razao_social VARCHAR(150) NOT NULL,
+    nome_fantasia VARCHAR(150) NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+-- Tabela para armazenar informações sobre ordens de compra, com chave estrangeira referenciando a tabela cliente
+CREATE TABLE ordem_compra (
+    id_compra SERIAL PRIMARY KEY NOT NULL,
+    id_cliente INT NOT NULL,
+    valor_compra DOUBLE PRECISION NOT NULL,
+    data_compra DATE NOT NULL,
+    quantidade INT NOT NULL,
+    status VARCHAR(3) NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+-- Tabela para armazenar informações sobre ordens de venda, com chave estrangeira referenciando a tabela cliente
+CREATE TABLE ordem_venda (
+    id_venda SERIAL PRIMARY KEY NOT NULL,
+    id_cliente INT NOT NULL,
+    valor_venda DOUBLE PRECISION NOT NULL,
+    data_venda DATE NOT NULL,
+    quantidade INT NOT NULL,
+    status VARCHAR(3) NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+-- Tabela para armazenar informações sobre empresas
+CREATE TABLE empresa (
+    id_empresa SERIAL PRIMARY KEY NOT NULL,
+    razao_social VARCHAR(150) NOT NULL,
+    nome_fantasia VARCHAR(150) NOT NULL,
+    cnpj VARCHAR(14) NOT NULL
+);
+
+-- Tabela para armazenar informações sobre ativos, com chave estrangeira referenciando a tabela empresa
+CREATE TABLE ativo (
+    id_ativo SERIAL PRIMARY KEY NOT NULL,
+    id_empresa INT NOT NULL,
+    sigla VARCHAR(10) NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    atualizacao DATE NOT NULL,
+    quantidades_papeis INT NOT NULL,
+    valor_max DOUBLE PRECISION NOT NULL,
+    valor_min DOUBLE PRECISION NOT NULL,
+    valor DOUBLE PRECISION NOT NULL,
+    FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa)
+);
+
+-- Tabela para armazenar histórico de preços de ativos, com chave estrangeira referenciando a tabela ativo
+CREATE TABLE IF NOT EXISTS historico_preco (
+    id SERIAL PRIMARY KEY NOT NULL,
+    id_ativo INT NOT NULL,
+    data_valor DATE NOT NULL,
+    valor_do_ativo DOUBLE PRECISION NOT NULL,
+    FOREIGN KEY (id_ativo) REFERENCES ativo(id_ativo)
+);
+
+-- Tabela para armazenar informações sobre a carteira de um cliente, com chaves estrangeiras referenciando as tabelas cliente e ativo
+CREATE TABLE carteira (
+    id_carteira SERIAL PRIMARY KEY NOT NULL,
+    id_cliente INT NOT NULL,
+    id_ativo INT NOT NULL,
+    quantidade INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_ativo) REFERENCES ativo(id_ativo)
+);
+
+-- Trigger de Log para gerar Histório de Preços
+-- Função que é executada após uma atualização na tabela ativo, registrando o histórico de preços
+CREATE OR REPLACE FUNCTION after_update_ativo()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Verifica se o valor da coluna "valor" foi alterado
+    IF NEW.valor <> OLD.valor THEN
+        -- Insere um novo registro na tabela historico_preco
+        INSERT INTO historico_preco (id_ativo, data_valor, valor_do_ativo)
+        VALUES (OLD.id_ativo, CURRENT_DATE, OLD.valor);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger associada à função, executada após uma atualização na tabela ativo
+CREATE TRIGGER after_update_ativo
+AFTER UPDATE ON ativo
+FOR EACH ROW
+EXECUTE FUNCTION after_update_ativo();
