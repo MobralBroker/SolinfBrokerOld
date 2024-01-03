@@ -21,61 +21,78 @@
 -- Utiliza duas consultas com LEFT JOIN nas tabelas pessoafisica e pessoajuridica para obter informações tanto de pessoas físicas quanto de pessoas jurídicas.
 -- Aplica os filtros com base nos parâmetros fornecidos, permitindo a filtragem por CPF, CNPJ e ID do cliente.
 -- Retorna os resultados consolidados de acordo com os filtros aplicados.
-CREATE OR REPLACE PROCEDURE sp_cliente_completo(
+CREATE OR REPLACE FUNCTION sp_cliente_completo(
     IN p_cpf VARCHAR(11) DEFAULT NULL,
     IN p_cnpj VARCHAR(14) DEFAULT NULL,
     IN p_id_cliente INT DEFAULT NULL
 )
+RETURNS TABLE (
+    id_cliente INT,
+    tipo VARCHAR(255),
+    usuario VARCHAR(255),
+    senha VARCHAR(255),
+    email VARCHAR(255),
+    saldo NUMERIC,
+    cpf VARCHAR(11),
+    nome_pf VARCHAR(255),
+    nascimento DATE,
+    cnpj VARCHAR(14),
+    razao_social VARCHAR(255),
+    nome_fantasia VARCHAR(255)
+)
+AS $$
 BEGIN
-		SELECT
-			c.id_cliente,
-			c.tipo,
-			c.usuario,
-			c.senha,
-			c.email,
-			c.saldo,
-			pf.cpf,
-			pf.nome AS nome_pf,
-			pf.nascimento,
-			NULL AS cnpj,
-			NULL AS razao_social,
-			NULL AS nome_fantasia
-		FROM
-			cliente c
-		LEFT JOIN
-			pessoafisica pf ON c.id_cliente = pf.id_cliente
-		WHERE
-			(p_cpf IS NULL OR pf.cpf = p_cpf) AND
-			(p_cnpj IS NULL) AND
-			(p_id_cliente IS NULL OR c.id_cliente = p_id_cliente)
+    RETURN QUERY
+    SELECT
+        c.id_cliente,
+        c.tipo,
+        c.usuario,
+        c.senha,
+        c.email,
+        c.saldo,
+        pf.cpf,
+        pf.nome AS nome_pf,
+        pf.nascimento,
+        NULL AS cnpj,
+        NULL AS razao_social,
+        NULL AS nome_fantasia
+    FROM
+        cliente c
+    LEFT JOIN
+        pessoafisica pf ON c.id_cliente = pf.id_cliente
+    WHERE
+        (p_cpf IS NULL OR pf.cpf = p_cpf) AND
+        (p_cnpj IS NULL) AND
+        (p_id_cliente IS NULL OR c.id_cliente = p_id_cliente)
 
     UNION
 
-		SELECT
-			c.id_cliente,
-			c.tipo,
-			c.usuario,
-			c.senha,
-			c.email,
-			c.saldo,
-			NULL AS cpf,
-			NULL AS nome_pf,
-			NULL AS nascimento,
-			pj.cnpj,
-			pj.razao_social,
-			pj.nome_fantasia
-		FROM
-			cliente c
-		LEFT JOIN
-			pessoajuridica pj ON c.id_cliente = pj.id_cliente
-		WHERE
-			(p_cnpj IS NULL OR pj.cnpj = p_cnpj) AND
-			(p_cpf IS NULL) AND
-			(p_id_cliente IS NULL OR c.id_cliente = p_id_cliente);
-END;
+    SELECT
+        c.id_cliente,
+        c.tipo,
+        c.usuario,
+        c.senha,
+        c.email,
+        c.saldo,
+        NULL AS cpf,
+        NULL AS nome_pf,
+        NULL AS nascimento,
+        pj.cnpj,
+        pj.razao_social,
+        pj.nome_fantasia
+    FROM
+        cliente c
+    LEFT JOIN
+        pessoajuridica pj ON c.id_cliente = pj.id_cliente
+    WHERE
+        (p_cnpj IS NULL OR pj.cnpj = p_cnpj) AND
+        (p_cpf IS NULL) AND
+        (p_id_cliente IS NULL OR c.id_cliente = p_id_cliente);
 
+END;
+$$ LANGUAGE plpgsql;
 
 -- Utilização:
 -- A procedure sp_cliente_completo pode ser chamada com diferentes combinações de parâmetros para obter informações específicas do cliente.
 -- Facilita a obtenção de dados consolidados, permitindo a flexibilidade na seleção de critérios de pesquisa.
-CALL sp_cliente_completo('12345678909', NULL, NULL);
+SELECT * FROM sp_cliente_completo(p_cpf := null, p_cnpj := null, p_id_cliente := 1);
