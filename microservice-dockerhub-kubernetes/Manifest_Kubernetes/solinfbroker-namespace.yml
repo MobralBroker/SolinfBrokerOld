@@ -4,5 +4,5 @@ metadata:
   name: solinfbroker
   annotations:
     desc: "Namespace para aplicação TesteMicroservice"
-    owner: "Joao Rodrigues"
+    owner: "Michael"
   

@@ -3,11 +3,16 @@ kind: Service
 metadata:
   name: database-solinfbroker-service
   namespace: solinfbroker
+  labels:
+    app: database-solinfbroker
+    name: database-solinfbroker-service
 spec:
   selector:
     app: database-solinfbroker
   ports:
-  - protocol: TCP
-    port: 5432
+  - port: 5432
     targetPort: 5432
+  selector:
+    name: database-solinfbroker-deployment
+    app: database-solinfbroker
   type: NodePort

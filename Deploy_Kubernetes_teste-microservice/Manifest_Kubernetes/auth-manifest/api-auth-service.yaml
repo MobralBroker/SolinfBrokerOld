@@ -4,7 +4,6 @@ metadata:
   name: autenticacao-solinfbroker-service
   labels:
     app: autenticacao-solinfbroker
-  namespace: solinfbroker
 spec:
   selector:
     app: autenticacao-solinfbroker

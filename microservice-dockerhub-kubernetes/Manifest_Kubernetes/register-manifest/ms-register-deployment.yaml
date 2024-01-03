@@ -1,20 +1,29 @@
 apiVersion: apps/v1
+
 kind: Deployment
+
 metadata:
-  name: registro-solinfbroker
+  name: registro-solinfbroker-deployment
   namespace: solinfbroker
+  labels:
+    app: registro-solinfbroker
+
+
 spec:
   replicas: 4
   selector:
     matchLabels:
+      name: registro-solinfbroker-deployment
       app: registro-solinfbroker
   template:
     metadata:
+      name: registro-solinfbroker-deployment
       labels:
+        name: registro-solinfbroker-deployment
         app: registro-solinfbroker
     spec:
       containers:
-      - name: registro-solinfbroker
-        image: jvlr9510/jvlr9510-registro-solinfbroker:1.0
+      - name: registro-solinfbroker-deployment
+        image: michaelcesar/teste-microservice_registro-solinfbroker
         ports:
         - containerPort: 8761

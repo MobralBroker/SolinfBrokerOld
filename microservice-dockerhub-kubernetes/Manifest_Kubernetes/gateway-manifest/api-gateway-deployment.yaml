@@ -1,20 +1,28 @@
 apiVersion: apps/v1
+
 kind: Deployment
+
 metadata:
   name: gateway-solinfbroker
   namespace: solinfbroker
+  labels:
+    app: gateway-solinfbroker
+
 spec:
   replicas: 4
   selector:
     matchLabels:
+      name: gateway-solinfbroker-deployment
       app: gateway-solinfbroker
   template:
     metadata:
+      name: gateway-solinfbroker-deployment
       labels:
+        name: gateway-solinfbroker-deployment
         app: gateway-solinfbroker
     spec:
       containers:
-      - name: gateway-solinfbroker
-        image: jvlr9510/jvlr9510-api-gateway:1.0
+      - name: gateway-solinfbroker-deployment
+        image: michaelcesar/teste-microservice_gateway-solinfbroker
         ports:
         - containerPort: 8080

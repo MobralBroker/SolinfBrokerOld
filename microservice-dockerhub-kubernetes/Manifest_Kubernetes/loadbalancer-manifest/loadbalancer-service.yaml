@@ -10,13 +10,17 @@ metadata:
     name: registro-solinfbroker-service
 
 spec:
+  type: LoadBalancer
   selector:
     matchLabels:
       app: registro-solinfbroker
   ports:
   - port: 8761
     targetPort: 8761
+    name: registro-solinfbroker
+  - port: 8080
+    targetPort: 8080
+    name: gateway-solinfbroker
   selector:
     name: registro-solinfbroker-deployment
     app: registro-solinfbroker
-  type: NodePort

@@ -1,22 +1,28 @@
 apiVersion: apps/v1
+
 kind: Deployment
+
 metadata:
-  name: autenticacao-solinfbroker
+  name: autenticacao-solinfbroker-deployment
+  namespace: solinfbroker
   labels:
     app: autenticacao-solinfbroker
+
 spec:
   replicas: 4
   selector:
     matchLabels:
+      name: autenticacao-solinfbroker-deployment
       app: autenticacao-solinfbroker
   template:
     metadata:
       labels:
+        name: autenticacao-solinfbroker-deployment
         app: autenticacao-solinfbroker
     spec:
       containers:
       - name: autenticacao-solinfbroker
-        image: jvlr9510/jvlr9510-api-auth:1.0
+        image: michaelcesar/teste-microservice_autenticacao-solinfbroker
         ports:
         - containerPort: 8081
 

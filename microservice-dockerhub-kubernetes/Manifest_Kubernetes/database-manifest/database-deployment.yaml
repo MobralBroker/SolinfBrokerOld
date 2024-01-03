@@ -1,20 +1,28 @@
 apiVersion: apps/v1
+
 kind: Deployment
+
 metadata:
-  name: database-solinfbroker
+  name: database-solinfbroker-deployment
   namespace: solinfbroker
+  labels:
+    app: database-solinfbroker
+
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
+      name: database-solinfbroker-deployment
       app: database-solinfbroker
   template:
     metadata:
+      name: database-solinfbroker-deployment
       labels:
+        name: database-solinfbroker-deployment
         app: database-solinfbroker
     spec:
       containers:
-      - name: database-solinfbroker
+      - name: database-solinfbroker-deployment
         image: postgres
         env:
         - name: POSTGRES_PASSWORD

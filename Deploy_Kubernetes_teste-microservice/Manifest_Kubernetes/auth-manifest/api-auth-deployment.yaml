@@ -2,10 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: autenticacao-solinfbroker
-  namespace: solinfbroker
   labels:
     app: autenticacao-solinfbroker
-
 spec:
   replicas: 4
   selector:
