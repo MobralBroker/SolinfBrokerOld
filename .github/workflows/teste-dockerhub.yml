@@ -40,19 +40,16 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: mostrar releases
-      run: echo gh release view --json tagName -q ".tagName"
-      env:
-        GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
-
-    - name: adicionar versão ao env
-      run: echo "versao-api=gh release view --json tagName -q ".tagName"" >> "$GITHUB_ENV"
+      id: tag-release
+      run:  echo "VERSAO_API=echo gh release view --json tagName -q ".tagName"" >> "$GITHUB_ENV" #echo gh release view --json tagName -q ".tagName"
       env:
         GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
 
     - name: criar release
-      run: gh release create v$action_state --title "v$action_state (teste)" --notes "teste de release"
+      run: gh release create v $action_state --title "v$action_state (teste)" --notes "teste de release"
       env:
         GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
+        VERSAO_API: ${{ steps.tag-release.outputs.VERSAO_API }}
 
   # teste:
   #   needs: build
