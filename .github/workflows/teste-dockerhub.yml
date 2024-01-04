@@ -30,7 +30,7 @@ jobs:
     
     # Subir imagem do registro para o dockerhub 
     - name: Subir imagem do registro para o dockerhub
-      run: docker push registro-solinfbroker --all-tags
+      run: docker push solinfbroker/registro-solinfbroker --all-tags
 
     - name: print container
       run: docker image ls
