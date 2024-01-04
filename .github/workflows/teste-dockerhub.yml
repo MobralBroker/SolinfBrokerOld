@@ -26,11 +26,11 @@ jobs:
 
     # Adicionar tag na imagem do Registro Service
     - name: Adicionar tag na imagem do Registro Service
-      run: docker tag teste-microservice_registro-solinfbroker:0.0.1 solinfbroker/teste-microservice_registro-solinfbroker:latest
+      run: docker tag registro-solinfbroker:0.0.1 solinfbroker/registro-solinfbroker:latest
     
     # Subir imagem do registro para o dockerhub 
     - name: Subir imagem do registro para o dockerhub
-      run: docker push solinfbroker/teste-microservice_registro-solinfbroker:0.0.1
+      run: docker push solinfbroker/registro-solinfbroker:0.0.1
 
     - name: print container
       run: docker image ls
