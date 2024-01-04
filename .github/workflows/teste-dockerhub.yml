@@ -42,10 +42,7 @@ jobs:
     - name: mostrar releases
       id: tag-release
       run: |
-         VERSAO_API=$(gh release view --json tagName -q ".tagName")
-         if [ -z "$VERSAO_API" ]; then
-           VERSAO_API='0.0.1'
-         fi
+         VERSAO_API=$(gh release view --json tagName -q ".tagName" || echo '0.0.1')
          echo "VERSAO_API=${VERSAO_API}" >> $GITHUB_ENV
          echo "::set-output name=VERSAO_API::$VERSAO_API"
       env:
