@@ -41,15 +41,29 @@ jobs:
     
     - name: mostrar releases
       id: tag-release
-      run:  echo "VERSAO_API=echo gh release view --json tagName -q ".tagName"" >> "$GITHUB_ENV" #echo gh release view --json tagName -q ".tagName"
+      run: |
+         VERSAO_API=$(gh release view --json tagName -q ".tagName")
+         if [ -z "$VERSAO_API" ]; then
+           VERSAO_API='0.0.1'
+         fi
+         echo "VERSAO_API=${VERSAO_API}" >> $GITHUB_ENV
+         echo "::set-output name=VERSAO_API::$VERSAO_API"
       env:
         GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
+      # run:  echo 'VERSAO_API=gh release view --json tagName -q ".tagName"'' >> "$GITHUB_ENV" #echo gh release view --json tagName -q ".tagName"
+      # env:
+      #   GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }
 
     - name: criar release
-      run: gh release create v $action_state --title "v$action_state (teste)" --notes "teste de release"
+      run: gh release create ${{ steps.tag-release.outputs.VERSAO_API }} --title "v${{ steps.tag-release.outputs.VERSAO_API }} (teste)" --notes "teste de release"
       env:
         GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
-        VERSAO_API: ${{ steps.tag-release.outputs.VERSAO_API }}
+      
+    # - name: criar release
+    #   run: gh release create $VERSAO_API --title "v$VERSAO_API (teste)" --notes "teste de release"
+    #   env:
+    #     GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
+    #     # VERSAO_API: ${{ steps.tag-release.outputs.VERSAO_API }
 
   # teste:
   #   needs: build
