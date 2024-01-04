@@ -23,10 +23,6 @@ jobs:
     # Logar na conta do DockerHub
     - name: Logar no DockerHub
       run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
-
-    # # Adicionar tag na imagem do Registro Service
-    # - name: Adicionar tag na imagem do Registro Service
-    #   run: docker tag registro-solinfbroker solinfbroker/registro-solinfbroker:0.0.1 
     
     # Subir imagem do registro para o dockerhub 
     - name: Subir imagem do registro para o dockerhub
@@ -34,6 +30,17 @@ jobs:
 
     - name: print container
       run: docker image ls
+
+  gerar-release:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: criar release
+      run: gh release create v0.0.1 --title "v0.0.1 (teste)" --notes "teste de release"
+
   teste:
     needs: build
     runs-on: ubuntu-latest
@@ -43,7 +50,7 @@ jobs:
 
     # Baixar imagem
     - name: Baixar imagem
-      run: docker pull solinfbroker/teste-microservice_registro-solinfbroker:latest
+      run: docker pull solinfbroker/registro-solinfbroker:latest
 
     - name: print container
       run: docker image ls
