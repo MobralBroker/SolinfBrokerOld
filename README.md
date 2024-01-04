@@ -58,25 +58,28 @@ Empresa
 
 [GET] Detalhar informações da empresa
 
-# Banco de Dados
+# Banco de Dados do Projeto
 
-## Diagramas do Banco de Dados
-Os arquivos explicando cada um dos campos, tabelas e relações do banco de dados se encontram no arquivo "Diagrama do Banco.drawio" e na pasta "banco_de_dados"
+A estrutura do banco de dados do projeto est  organizada na pasta "database". O script principal "database.sql", que cria as tabelas necess rias para o funcionamento do sistema.
 
-O scritp corrigido do banco se encontra no arquivo "Script_criacao_BD.sql".
+## Diagramas do Banco de Dados (\diagrams)
 
-## Scripts do Banco de Dados
-* Population.sql
-  * O script de Population serve para inserir nas tableas: cliente, pessoafisica, pessoajuridica, empresa, ativo, carteira
-* Population Orders.sql
-  * O script serve para preencher as tabelas de ordens de compra, tanto compra como venda
+Na pasta "diagrams", irá encontrar  o diagrama de entidade e relacionamento, que fornece uma visao geral da estrutura do banco de dados. E também uma aba detalhada, especificando a finalidade de cada campo no banco de dados.
 
-## Views e Procedures
-* View Cliente.sql
-  * Script da view que valida se é cliente fisico ou juridico e trás o resultado da busca
-* Procedure Cliente.sql
-  * Script que gera uma procedure no banco que possibilita buscas por CPF, CNPJ e ID e valida se é pessoa física ou juridica no momento que faz a busca no banco de dados
+## Scripts do Banco de Dados (\scripts)
 
-### Observações
+### Populaao de Dados
 
-É necessário no momento da execução dos script verificar se está sendo inserido nas tabelas informações que são dependentes, por exemplo (Inserir pessoafisica e pessoajuridica antes de incluir cliente no sistema).
+- **Population.sql:** Este script é destinado a popular as tabelas de cliente, pessoa física, pessoa jurídica, empresa, ativo e carteira. Note que esses dados sao apenas para fins de teste.
+
+- **Population Orders.sql:** Este script preenche as tabelas de ordens de compra e venda, utilizado para cen rios de teste.
+
+### Views e Procedures
+
+- **View Cliente.sql:** Contém o script para uma view que valida se um cliente é pessoa física ou jurídica, trazendo o resultado da busca.
+
+- **Procedure Cliente.sql:** Este script gera uma procedure que possibilita buscas por CPF, CNPJ e ID, validando se a entidade é uma pessoa física ou jurídica durante a busca.
+
+## Observaoes
+
+Durante a execução dos scripts, É importante verificar se estao sendo inseridas informações dependentes corretamente. Por exemplo, É necessário inserir informações em "pessoafisica" e "pessoajuridica" antes de incluir um cliente no sistema.
