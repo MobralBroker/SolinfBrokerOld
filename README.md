@@ -68,7 +68,7 @@ Na pasta "diagrams", irá encontrar  o diagrama de entidade e relacionamento, q
 
 ## Scripts do Banco de Dados (\scripts)
 
-### Populaao de Dados
+### População de Dados
 
 - **Population.sql:** Este script é destinado a popular as tabelas de cliente, pessoa física, pessoa jurídica, empresa, ativo e carteira. Note que esses dados sao apenas para fins de teste.
 
@@ -80,6 +80,6 @@ Na pasta "diagrams", irá encontrar  o diagrama de entidade e relacionamento, q
 
 - **Procedure Cliente.sql:** Este script gera uma procedure que possibilita buscas por CPF, CNPJ e ID, validando se a entidade é uma pessoa física ou jurídica durante a busca.
 
-## Observaoes
+## Observações
 
 Durante a execução dos scripts, É importante verificar se estao sendo inseridas informações dependentes corretamente. Por exemplo, É necessário inserir informações em "pessoafisica" e "pessoajuridica" antes de incluir um cliente no sistema.
