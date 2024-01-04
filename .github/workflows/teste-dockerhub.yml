@@ -40,13 +40,14 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: mostrar releases
-      run: gh release list --limit 1
+      run: echo gh release view --json tagName -q ".tagName"
       env:
         GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
 
     - name: adicionar versão ao env
-      run: echo "versao-api=0.0.1" >> "$GITHUB_ENV"
-
+      run: echo "versao-api=gh release view --json tagName -q ".tagName"" >> "$GITHUB_ENV"
+      env:
+        GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
 
     - name: criar release
       run: gh release create v$action_state --title "v$action_state (teste)" --notes "teste de release"
