@@ -41,9 +41,12 @@ jobs:
     
     - name: mostrar releases
       run: gh release list --limit 1
+      env:
+        GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
 
     - name: adicionar versão ao env
       run: echo "versao-api=0.0.1" >> "$GITHUB_ENV"
+
 
     - name: criar release
       run: gh release create v$action_state --title "v$action_state (teste)" --notes "teste de release"
