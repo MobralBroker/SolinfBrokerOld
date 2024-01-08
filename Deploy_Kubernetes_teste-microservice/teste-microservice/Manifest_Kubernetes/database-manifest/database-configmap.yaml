@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-init-script
-  namespace: solinfbroker
-data:
-  init.sql: |
-    CREATE DATABASE db_solinfbroker;
-

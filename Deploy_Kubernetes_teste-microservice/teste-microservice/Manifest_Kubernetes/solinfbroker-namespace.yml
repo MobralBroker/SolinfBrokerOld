@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: solinfbroker
-  annotations:
-    desc: "Namespace para aplicação TesteMicroservice"
-    owner: "Joao Rodrigues"
-  
