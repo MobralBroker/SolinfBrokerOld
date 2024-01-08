@@ -1,19 +1,53 @@
-### VS Code ###
-!**/teste-microservice/.vscode/
-!**/teste-microservice/postgres-data/
-!**/teste-microservice/api-autenticacao/src/main/**/target/
-!**/teste-microservice/api-autenticacao/src/test/**/target/
-!**/teste-microservice/api-autenticacao/.mvn/wrapper/maven-wrapper.jar
-!**/teste-microservice/api-autenticacao/database-doker/
+# Miscellaneous
+*.java.hsp
+*.sonarj
+*.sw*
+.DS_Store
+build.sh
+integration-repo
+ivy-cache
+argfile*
+activemq-data/
+classes/
 
-!**/teste-microservice/api-entidades/src/main/**/target/
-!**/teste-microservice/api-entidades/src/test/**/target/
-!**/teste-microservice/api-entidades/.mvn/wrapper/maven-wrapper.jar
+# Log files
+jxl.log
+jmx.log
+derby.log
 
-!**/teste-microservice/api-gateway/src/main/**/target/
-!**/teste-microservice/api-gateway/src/test/**/target/
-!**/teste-microservice/api-gateway/.mvn/wrapper/maven-wrapper.jar
+# Gradle artifacts
+.gradle
+.gradletasknamecache
+/build
+buildSrc/build
+/spring-*/build
+/framework-*/build
+/integration-tests/build
+/src/asciidoc/build
+spring-test/test-output/
 
-!**/teste-microservice/registro/src/main/**/target/
-!**/teste-microservice/registro/src/test/**/target/
-!**/teste-microservice/registro/.mvn/wrapper/maven-wrapper.jar
+# Maven artifacts
+pom.xml
+/target/
+
+# Eclipse artifacts, including WTP generated manifests
+bin
+.classpath
+.project
+.settings
+.springBeans
+spring-*/src/main/java/META-INF/MANIFEST.MF
+
+# IDEA artifacts and output dirs
+*.iml
+*.ipr
+*.iws
+.idea
+out
+test-output
+atlassian-ide-plugin.xml
+
+# VS Code
+.vscode/
+
+cached-antora-playbook.yml
