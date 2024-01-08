@@ -1,6 +1,7 @@
 package com.solinfbroker.apiautenticacao.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,6 @@ public class PessoaFisica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pessoafisica")
     private Long id;
 
     private String cpf;
@@ -26,7 +26,7 @@ public class PessoaFisica {
     private String nome;
 
     @Column(name = "nascimento")
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate dataNascimento;
-
 
 }

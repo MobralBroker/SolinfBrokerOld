@@ -1,9 +1,6 @@
 package com.solinfbroker.apiautenticacao.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -17,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Data
@@ -30,12 +28,10 @@ public class ClienteModel implements UserDetails{
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_cliente")
     private Long id;
 
     private String tipo;
 
-    @Column(name = "usuario")
     private String nomeUsuario;
 
     private String senha;
@@ -46,24 +42,36 @@ public class ClienteModel implements UserDetails{
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_cliente")
-    private Set<PessoaFisica> pessoaFisica;
+    private Set<PessoaFisica> pessoaFisica = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_cliente")
-    private Set<PessoaJuridica> pessoaJuridica;
+    private Set<PessoaJuridica> pessoaJuridica = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cliente_permissao", joinColumns =  @JoinColumn(name="id_cliente"), inverseJoinColumns = @JoinColumn(name="id_permissao"))
     private Set<PermissaoModel> permissoes;
 
-    public ClienteModel(String email, String senha, Set<PermissaoModel> role, String tipo, String nomeUsuario, Set<PessoaFisica> pessoaFisica){
+    public ClienteModel(String email, String senha, Set<PermissaoModel> role, String tipo, String nomeUsuario, Set<PessoaFisica> pessoaFisica, Set<PessoaJuridica> pessoaJuridica){
         this.email = email;
         this.tipo = tipo;
         this.senha = senha;
         this.permissoes = role;
         this.nomeUsuario = nomeUsuario;
         for(PessoaFisica pf : pessoaFisica){
-            this.pessoaFisica.add(pf);
+            PessoaFisica pessoaFisica1 = new PessoaFisica();
+            pessoaFisica1.setCpf(pf.getCpf());
+            pessoaFisica1.setNome(pf.getNome());
+            pessoaFisica1.setDataNascimento(pf.getDataNascimento());
+            this.pessoaFisica.add(pessoaFisica1);
+        }
+
+        for(PessoaJuridica pj : pessoaJuridica){
+            PessoaJuridica pessoaJuridica1 = new PessoaJuridica();
+            pessoaJuridica1.setCnpj(pj.getCnpj());
+            pessoaJuridica1.setNomeFantasia(pj.getNomeFantasia());
+            pessoaJuridica1.setRazaoSocial(pj.getRazaoSocial());
+            this.pessoaJuridica.add((pessoaJuridica1));
         }
     }
 

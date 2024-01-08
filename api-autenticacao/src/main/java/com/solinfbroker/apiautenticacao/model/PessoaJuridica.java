@@ -17,7 +17,6 @@ public class PessoaJuridica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pessoajuridica")
     private Long id;
 
     private String cnpj;

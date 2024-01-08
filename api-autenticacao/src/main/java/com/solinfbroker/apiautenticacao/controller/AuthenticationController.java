@@ -52,12 +52,12 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
         if(this.clienteRepository.findByEmail(data.email()) != null){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build(); //TODO adicionar tratamento de erro
         } 
 
         String encryptPassaword = new BCryptPasswordEncoder().encode(data.senha());
 
-        ClienteModel newUsuarioModel = new ClienteModel(data.email(),encryptPassaword,data.role(), data.tipo(), data.nomeUsuario(), data.pessoaFisica());
+        ClienteModel newUsuarioModel = new ClienteModel(data.email(),encryptPassaword,data.role(), data.tipo(), data.nomeUsuario(), data.pessoaFisica(), data.pessoaJuridica());
         this.clienteRepository.save(newUsuarioModel);
         return ResponseEntity.ok().build();
     }
