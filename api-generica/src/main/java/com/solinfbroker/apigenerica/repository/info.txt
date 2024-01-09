@@ -1,0 +1,5 @@
+REPOSITORY
+
+Aqui ficará todas as interfaces de repository, que iremos utilizar para se comunicar com o banco de dados através do JpaRepository
+
+

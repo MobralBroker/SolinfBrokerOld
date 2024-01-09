@@ -1,0 +1,3 @@
+CONFIG
+
+Aqui ficará todas as classes de configurações relacionada a dependencias, aplicações, serviços e segurança.

@@ -28,7 +28,7 @@ public class AuthenticationService {
         return tokenService.generateToken((ClienteModel)auth.getPrincipal());
     }
 
-    public ClienteModel registrarCliente (RegisterDTO cliente){
+    public ClienteModel registrarCliente (RegisterDTO cliente){ //TODO Criar um DTO para retorno
 
         if(this.clienteRepository.findByEmail(cliente.email()) != null){
             throw new ApiRequestException("Já existe um cliente cadastrado com este e-mail.");

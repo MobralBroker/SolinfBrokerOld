@@ -45,7 +45,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/validar")
-    public ResponseEntity<?> validarToken (@RequestParam("token") String token) {
+    public ResponseEntity<String> validarToken (@RequestParam("token") String token) {
         if(authenticationService.validarToken(token)){
             return new ResponseEntity<>("Token Não Autorizado",HttpStatus.UNAUTHORIZED); 
         };

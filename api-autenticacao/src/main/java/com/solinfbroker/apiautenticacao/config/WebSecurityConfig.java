@@ -46,9 +46,8 @@ public class WebSecurityConfig {
 
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/auth/validar").permitAll()
             .requestMatchers(AUTH_WHITE_LIST).permitAll()
-            .requestMatchers(HttpMethod.POST,"/produtos").hasRole("ADMIN")
             .anyRequest().authenticated()
            )
            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -57,7 +56,6 @@ public class WebSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-        System.out.println("aa");
         return authenticationConfiguration.getAuthenticationManager();
     }
 
