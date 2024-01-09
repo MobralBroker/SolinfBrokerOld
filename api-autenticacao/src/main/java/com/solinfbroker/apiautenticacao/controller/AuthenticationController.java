@@ -1,6 +1,7 @@
 package com.solinfbroker.apiautenticacao.controller;
 
 import com.solinfbroker.apiautenticacao.model.ClienteModel;
+import com.solinfbroker.apiautenticacao.service.AuthenticationService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,46 +32,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthenticationController {
     
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationService authenticationService;
 
     @Autowired
     ClienteRepository clienteRepository;
 
-    @Autowired
-    TokenService tokenService;
 
-    @PostMapping("/login")
+    @PostMapping("/login") // Método responsável por efetuar a autenticação e gerar o token de acesso ao cliente
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
-        var token = tokenService.generateToken((ClienteModel)auth.getPrincipal());
-
+        String token = authenticationService.gerarAutenticacao(data);
         return ResponseEntity.ok(new AuthResponseDTO(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
-        if(this.clienteRepository.findByEmail(data.email()) != null){
-            return ResponseEntity.badRequest().build(); //TODO adicionar tratamento de erro
-        } 
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data) throws Exception {
 
-        String encryptPassaword = new BCryptPasswordEncoder().encode(data.senha());
-
-        ClienteModel newUsuarioModel = new ClienteModel(data.email(),encryptPassaword,data.role(), data.tipo(), data.nomeUsuario(), data.pessoaFisica(), data.pessoaJuridica());
-        this.clienteRepository.save(newUsuarioModel);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(authenticationService.registrarCliente(data));
     }
 
     @GetMapping("/validar")
     public ResponseEntity<?> validarToken (@RequestParam("token") String token) {
-        if(tokenService.validateToken(token).isEmpty()){
+        if(authenticationService.validarToken(token)){
             return new ResponseEntity<>("Token Não Autorizado",HttpStatus.UNAUTHORIZED); 
         };
         return new ResponseEntity<>("Token Autorizado",HttpStatus.ACCEPTED); 
 
     }
-    
     
     @GetMapping("/usuario/{login}")
     public ResponseEntity getUsuario(@PathVariable String login) {

@@ -1,3 +1,4 @@
+-- Tabela para armazenar informações sobre clientes
 CREATE TABLE cliente (
     id BIGSERIAL PRIMARY KEY NOT NULL,
     tipo VARCHAR(2) NOT NULL,
@@ -7,11 +8,13 @@ CREATE TABLE cliente (
     saldo DOUBLE PRECISION DEFAULT 0.0
 );
 
+-- Tabela com as permissões
 create table permissoes(
     id BIGSERIAL primary key,
     permissao varchar not null
 );
 
+-- Tabela de relacionamento entre os clientes e permissões
 create table cliente_permissao(
     id_cliente BIGSERIAL not null,
     id_permissao BIGSERIAL not null,
@@ -40,6 +43,6 @@ CREATE TABLE pessoajuridica (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id)
 );
 
-
+-- Insert das Permissoes iniciais do sistema
 insert into permissoes(id,permissao) values (1,'ROLE_ADMIN');
 insert into permissoes(id,permissao) values (2,'ROLE_USER');
