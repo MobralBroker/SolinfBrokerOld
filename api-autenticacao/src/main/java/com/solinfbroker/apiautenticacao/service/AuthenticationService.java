@@ -1,14 +1,11 @@
 package com.solinfbroker.apiautenticacao.service;
 
 import com.solinfbroker.apiautenticacao.dtos.AuthenticationDTO;
-import com.solinfbroker.apiautenticacao.dtos.ClienteModelDTO;
 import com.solinfbroker.apiautenticacao.dtos.RegisterDTO;
 import com.solinfbroker.apiautenticacao.exception.ApiRequestException;
 import com.solinfbroker.apiautenticacao.model.ClienteModel;
 import com.solinfbroker.apiautenticacao.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,27 +28,22 @@ public class AuthenticationService {
         return tokenService.generateToken((ClienteModel)auth.getPrincipal());
     }
 
-    public ClienteModel registrarCliente (RegisterDTO cliente) throws Exception {
+    public ClienteModel registrarCliente (RegisterDTO cliente){
 
         if(this.clienteRepository.findByEmail(cliente.email()) != null){
             throw new ApiRequestException("Já existe um cliente cadastrado com este e-mail.");
-//            return ResponseEntity.badRequest().build(); //TODO adicionar tratamento de erro
         }
 
-        String encryptPassaword = new BCryptPasswordEncoder().encode(cliente.senha());
+        String encryptPassword = new BCryptPasswordEncoder().encode(cliente.senha());
 
         ClienteModel newUsuarioModel = new ClienteModel(
                 cliente.email(),
-                encryptPassaword,
+                encryptPassword,
                 cliente.role(), cliente.tipo(), cliente.nomeUsuario(), cliente.pessoaFisica(), cliente.pessoaJuridica());
         return this.clienteRepository.save(newUsuarioModel);
-    };
+    }
 
     public Boolean validarToken(String token){
-        if(tokenService.validateToken(token).isEmpty()){
-            return true;
-        }else {
-            return false;
-        }
+        return tokenService.validateToken(token).isEmpty();
     }
 }

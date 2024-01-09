@@ -1,15 +1,12 @@
 package com.solinfbroker.apiautenticacao.config;
 
 import java.util.Arrays;
-import java.util.List;
 
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +27,13 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-    
+    private static final String[] AUTH_WHITE_LIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
     @Autowired
     SecurityFilter securityFilter;
 
@@ -44,6 +47,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
+            .requestMatchers(AUTH_WHITE_LIST).permitAll()
             .requestMatchers(HttpMethod.POST,"/produtos").hasRole("ADMIN")
             .anyRequest().authenticated()
            )

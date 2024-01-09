@@ -4,8 +4,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import javax.management.RuntimeErrorException;
-
 import com.solinfbroker.apiautenticacao.model.ClienteModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
