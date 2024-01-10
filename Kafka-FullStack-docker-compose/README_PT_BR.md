@@ -16,13 +16,13 @@ Isso replica o mais próximo possível as configurações reais de implantação
 
 ## Versão do Stack
 
-- Plataforma Conduktor: mais recente
-- Versão do Zookeeper: 3.6.3 (Confluent latest)
-- Versão do Kafka: 3.3.0 (Confluent latest)
-- Registro de Esquema do Kafka: Confluent latest
+- Conduktor Plataform: latest
+- Zookeeper version: 3.6.3 (Confluent latest)
+- Kafka version: 3.3.0 (Confluent latest)
+- Kafka Schema Registry: Confluent latest
 - Proxy de Rest do Kafka: Confluent latest
 - Kafka Connect: Confluent latest
-- Servidor ksqlDB: Confluent latest
+- ksqlDB Server: Confluent latest
 - Zoonavigator: 1.1.1
 
 Para uma ferramenta de interface do usuário para acessar seu cluster Kafka local, use a versão gratuita do [Conduktor](https://www.conduktor.io/get-started)
@@ -53,14 +53,14 @@ Para facilitar sua jornada com o Kafka, conecte-se a [localhost:8080](http://loc
 login: `admin@admin.io`
 senha: `admin`
 
-- Plataforma Conduktor: `$DOCKER_HOST_IP:8080`
-- Zookeeper único: `$DOCKER_HOST_IP:2181`
-- Kafka único: `$DOCKER_HOST_IP:9092`
-- Registro de Esquema do Kafka: `$DOCKER_HOST_IP:8081`
-- Proxy de Rest do Kafka: `$DOCKER_HOST_IP:8082`
+- Conduktor Plataform : `$DOCKER_HOST_IP:8080`
+- Single Zookeeper: `$DOCKER_HOST_IP:2181`
+- Single kafka: `$DOCKER_HOST_IP:9092`
+- Kafka Schema Registry: `$DOCKER_HOST_IP:8081`
+- Kafka Rest Proxy: `$DOCKER_HOST_IP:8082`
 - Kafka Connect: `$DOCKER_HOST_IP:8083`
-- Servidor KSQL: `$DOCKER_HOST_IP:8088`
-- (experimental) Porta JMX em `$DOCKER_HOST_IP:9001`
+- KSQL Server: `$DOCKER_HOST_IP:8088`
+- (experimental) JMX port at `$DOCKER_HOST_IP:9001`
 
  Execute com:
  ```
