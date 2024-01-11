@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-solinfbroker-service
+  namespace: solinfbroker
+  labels:
+    app: postgresql-solinfbroker
+    name: postgresql-solinfbroker-service
+spec:
+  selector:
+    name: postgresql-solinfbroker-deployment
+    app: postgresql-solinfbroker
+  ports:
+  - port: 80
+    nodePort: 30250
+    targetPort: 5432
+  type: NodePort

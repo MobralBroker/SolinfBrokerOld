@@ -1,0 +1,27 @@
+// Fazer um Post para localhost:8083/connectors
+
+{
+  "name": "inventory-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "task.max":"1",
+    "database.hostname": "postgresql",
+    "database.port": "5432",
+    "database.user": "root",
+    "database.password": "admin",
+    "database.dbname": "database_master",
+    "plugin.name":"pgoutput",
+    "database.server.name": "solinfbroker",
+    "key.converter.schemas.enable":false,
+    "value.converter.schemas.enable":false,
+    "transforms":"unwrap",
+    "transforms.unwrap.type" : "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.add.fields":"op",
+    "transforms.unwrap.drop.tombstones" : "false",
+    "transforms.unwrap.delete.handling.mode" : "none",
+    "key.converter":"org.apache.kafka.connect.json.JsonConverter",
+    "value.converter":"org.apache.kafka.connect.json.JsonConverter",
+    "table.include.list": "public.cliente, public.permissoes",
+    "slot.name":"db_cliente"
+  }
+}
