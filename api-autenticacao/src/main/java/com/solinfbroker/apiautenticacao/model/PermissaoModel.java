@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 /**
@@ -30,7 +31,8 @@ public class PermissaoModel {
     @Id
     @Column(name = "id")
     private Long id;
-    
+
+    @NotNull
     @Column(name = "permissao")
     private String permissao; // Descrição da permissão.
 }

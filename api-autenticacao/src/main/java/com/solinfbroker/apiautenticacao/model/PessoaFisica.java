@@ -3,6 +3,8 @@ package com.solinfbroker.apiautenticacao.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -21,8 +23,11 @@ public class PessoaFisica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Pattern(regexp = "^\\d{11}$", message = "O campo 'cpf' deve conter exatamente 11 dígitos")
     private String cpf;
 
+    @NotNull
     private String nome;
 
     @Column(name = "nascimento")
