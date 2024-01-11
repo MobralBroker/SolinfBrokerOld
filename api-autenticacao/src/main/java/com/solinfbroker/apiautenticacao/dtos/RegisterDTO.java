@@ -4,6 +4,7 @@ import com.solinfbroker.apiautenticacao.model.PermissaoModel;
 import com.solinfbroker.apiautenticacao.model.PessoaFisica;
 import com.solinfbroker.apiautenticacao.model.PessoaJuridica;
 import com.solinfbroker.apiautenticacao.model.enumTipoPessoa;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
