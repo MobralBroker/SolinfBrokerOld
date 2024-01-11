@@ -29,7 +29,7 @@ public class KafkaListener {
 
     @SneakyThrows
     @org.springframework.kafka.annotation.KafkaListener(topics = Topicos.TOPIC_CHECK_SAUDE,  groupId = Topicos.TOPIC_CHECK_SAUDE)
-    public void listeningSaudeCheck(ConsumerRecord<String, String> record)  {
+    public void listeningSaudeCheck(ConsumerRecord<String, String> record)  { //Adicionar o Objeto que desejo receber, no lugar da segunda string, este objeto será um DTO novo com a adição do campo __op
         LOG.info("CONSUMER message from Kafka: {}", record.value());
 
         /* Business rule code with message */
@@ -43,6 +43,12 @@ public class KafkaListener {
         /* Business rule code with message */
     }
 
+    @SneakyThrows
+    @org.springframework.kafka.annotation.KafkaListener(topics = Topicos.DB_CLIENTE,  groupId = Topicos.DB_CLIENTE)
+    public void listeningAtualizacaoBanco(ConsumerRecord<String, String> record)  {
+        LOG.info("Cliente: {}", record.value());
+        /* Business rule code with message */
+    }
 
 }
 

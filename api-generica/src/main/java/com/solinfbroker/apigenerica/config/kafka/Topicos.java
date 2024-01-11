@@ -8,4 +8,6 @@ public class Topicos {
     public  static final String TOPIC_ATUALIZACAO_MERCADO = "topic-atualizacao-mercado";
     public  static final String TOPIC_ATUALIZACAO_TESTES = "topic-atualizacao-testes";
 
+    public  static final String DB_CLIENTE = "solinfbroker.public.cliente";
+
 }
