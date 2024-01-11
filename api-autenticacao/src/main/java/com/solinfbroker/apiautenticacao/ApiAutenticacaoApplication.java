@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(
 		title = "API de Autenticação - SolinfBroker",
-		version = "1.0",
+		version = "1.1",
 		description = "Api responsável por criar e autenticar os usuários"))
 public class ApiAutenticacaoApplication {
 
