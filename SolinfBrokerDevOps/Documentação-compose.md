@@ -50,4 +50,4 @@ Este é um arquivo `docker-compose.yml` que descreve a composição de dois serv
 - Para mais informações sobre o Docker Compose, consulte a [documentação oficial](https://docs.docker.com/compose/).
 
 Este é um documento destiando ao projeto SolinfBroker da equipe Mobral da Solinftec.
-Em fase de testes.
+Em fase de testes|Homologação
