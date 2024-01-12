@@ -16,7 +16,7 @@ services:
     command: ["postgres", "-c", "wal_level=logical"]
 
   api-autenticacao:
-    image: jvlr9510/api-autenticacao:dev4
+    image: jvlr9510/api-autenticacao:dev5
     ports:
       - "8081:8081"
     depends_on:
