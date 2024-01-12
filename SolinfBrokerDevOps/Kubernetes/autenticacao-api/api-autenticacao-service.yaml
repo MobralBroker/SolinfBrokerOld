@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-autenticacao
+  namespace: dev
+spec:
+  selector:
+    app: api-autenticacao
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
+      nodePort: 30081
+  type: NodePort
+
