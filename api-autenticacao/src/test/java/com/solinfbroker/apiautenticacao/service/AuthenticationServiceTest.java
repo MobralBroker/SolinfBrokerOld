@@ -37,9 +37,7 @@ class AuthenticationServiceTest {
     }
 
     RegisterDTO setupCliente() {
-        PermissaoModel permissaoModel= new PermissaoModel();
-        permissaoModel.setId(1L);
-        permissaoModel.setPermissao("ROLE_ADMIN");
+        PermissaoModel permissaoModel= new PermissaoModel(1L,"ROLE_ADMIN");
         Set<PermissaoModel> permissaoModelSet = new HashSet<>();
         permissaoModelSet.add(permissaoModel);
 
@@ -83,4 +81,5 @@ class AuthenticationServiceTest {
 //        when()
 
     }
+
 }

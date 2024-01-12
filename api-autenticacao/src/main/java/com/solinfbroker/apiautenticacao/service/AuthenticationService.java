@@ -6,6 +6,7 @@ import com.solinfbroker.apiautenticacao.dtos.RegisterDTO;
 import com.solinfbroker.apiautenticacao.exception.ApiRequestException;
 import com.solinfbroker.apiautenticacao.model.ClienteModel;
 import com.solinfbroker.apiautenticacao.model.PermissaoModel;
+import com.solinfbroker.apiautenticacao.model.enumTipoPessoa;
 import com.solinfbroker.apiautenticacao.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.chrono.ChronoLocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +24,9 @@ public class AuthenticationService {
     TokenService tokenService;
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    ValidacoesCliente validacoesCliente;
 
     @Autowired
     ClienteRepository clienteRepository;
@@ -39,8 +44,20 @@ public class AuthenticationService {
         if(this.clienteRepository.findByEmail(cliente.email()) != null){
             throw new ApiRequestException("Já existe um cliente cadastrado com este e-mail.");
         }
-        //validar CPF ou CNPJ
 
+        if(cliente.tipo().equals(enumTipoPessoa.PF)){
+            if(!validacoesCliente.isValidCPF(cliente.pessoaFisica().iterator().next().getCpf())){
+                throw new ApiRequestException("O Cpf do cliente é inválido");
+            }else{
+                if(!validacoesCliente.validacaoIdade(cliente.pessoaFisica().iterator().next().getDataNascimento())){
+                    throw new ApiRequestException("O Cliente deve possuir no minimo 18 anos de idade.");
+                }
+            }
+        }else{
+            if(!validacoesCliente.isValidCNPJ(cliente.pessoaJuridica().iterator().next().getCnpj())){
+                throw new ApiRequestException("O Cnpj do cliente é inválido");
+            }
+        }
 
         Set<PermissaoModel> permissaoModels = new HashSet<>();
         permissaoModels.add(new PermissaoModel(1L,"ROLE_USER"));
