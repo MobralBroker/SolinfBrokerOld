@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 /**
@@ -35,4 +36,9 @@ public class PermissaoModel {
     @NotNull
     @Column(name = "permissao")
     private String permissao; // Descrição da permissão.
+
+    public PermissaoModel(Long id, String permissao) {
+        this.id = id;
+        this.permissao = permissao;
+    }
 }
