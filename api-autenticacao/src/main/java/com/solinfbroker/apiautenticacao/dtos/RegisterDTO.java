@@ -11,11 +11,11 @@ import java.util.Set;
 
 public record RegisterDTO(
         @NotNull
-        @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "O campo 'email' deve ser um endereço de e-mail válido")
+        @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.8-]+\\.[A-Z|a-z]{2,}$", message = "O campo 'email' deve ser um endereço de e-mail válido")
         String email,
-
-        String senha,
         @NotNull
+        String senha,
+
         Set<PermissaoModel> role,
         @NotNull
         enumTipoPessoa tipo,
