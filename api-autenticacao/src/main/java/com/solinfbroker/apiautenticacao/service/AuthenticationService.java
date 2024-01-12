@@ -8,6 +8,7 @@ import com.solinfbroker.apiautenticacao.model.ClienteModel;
 import com.solinfbroker.apiautenticacao.model.PermissaoModel;
 import com.solinfbroker.apiautenticacao.model.enumTipoPessoa;
 import com.solinfbroker.apiautenticacao.repository.ClienteRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +37,7 @@ public class AuthenticationService {
         return tokenService.generateToken((ClienteModel)auth.getPrincipal());
     }
 
-    public ClienteModelDTO registrarCliente (RegisterDTO cliente){
+    public ClienteModelDTO registrarCliente (@Valid RegisterDTO cliente){
 
         if(this.clienteRepository.findByEmail(cliente.email()) != null){
             throw new ApiRequestException("Já existe um cliente cadastrado com este e-mail.");
