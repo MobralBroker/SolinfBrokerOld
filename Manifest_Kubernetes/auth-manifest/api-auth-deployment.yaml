@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: autenticacao-solinfbroker-deployment
+  namespace: solinfbroker
+  labels:
+    app: autenticacao-solinfbroker
+
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      name: autenticacao-solinfbroker-deployment
+      app: autenticacao-solinfbroker
+  template:
+    metadata:
+      labels:
+        name: autenticacao-solinfbroker-deployment
+        app: autenticacao-solinfbroker
+    spec:
+      containers:
+      - name: autenticacao-solinfbroker
+        image: michaelcesar/api-autenticacao-img
+        ports:
+        - containerPort: 8080
+

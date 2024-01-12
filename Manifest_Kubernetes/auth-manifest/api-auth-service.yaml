@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: autenticacao-solinfbroker-service
+  namespace: solinfbroker
+  labels:
+    app: autenticacao-solinfbroker
+    name: autenticacao-solinfbroker-service
+spec:
+  selector:
+    name: autenticacao-solinfbroker-deployment
+    app: autenticacao-solinfbroker
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30080
+  type: NodePort

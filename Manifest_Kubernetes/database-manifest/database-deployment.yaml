@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: postgresql-solinfbroker-deployment
+  namespace: solinfbroker
+  labels:
+    app: postgresql-solinfbroker
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: postgresql-solinfbroker-deployment
+      app: postgresql-solinfbroker
+  template:
+    metadata:
+      name: postgresql-solinfbroker-deployment
+      labels:
+        name: postgresql-solinfbroker-deployment
+        app: postgresql-solinfbroker
+    spec:
+      containers:
+      - name: postgresql-solinfbroker-deployment
+        image: jvlr9510/debeziumpostgres:dev
+        env:
+        - name: POSTGRES_DB
+          value: "database_master"
+        - name: POSTGRES_USER
+          value: "root"
+        - name: POSTGRES_PASSWORD
+          value: "admin"
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: "scram-sha-256"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-data-volume
+          mountPath: /var/lib/postgresql/data
+        - name: initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: postgres-data-volume
+        persistentVolumeClaim:
+          claimName: postgres-data-pvc
+      - name: initdb
+        configMap:
+          name: postgres-init-script

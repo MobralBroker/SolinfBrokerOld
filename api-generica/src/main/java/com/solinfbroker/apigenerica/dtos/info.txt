@@ -1,0 +1,3 @@
+DTOS
+
+Aqui ficará os DTOS que iremos precisar na aplicação.
