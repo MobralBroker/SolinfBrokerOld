@@ -1,6 +1,6 @@
 # Dockerização da API de Autenticação e PostgreSQL
 
-Este repositório contém os arquivos necessários para dockerizar a API de Autenticação e o PostgreSQL, ambos criados por jvlor9510. As imagens foram enviadas para o Docker Hub, permitindo uma fácil implantação e teste local utilizando Kubernetes.
+Este repositório contém os arquivos necessários para dockerizar a API de Autenticação e o PostgreSQL. As imagens foram enviadas para o Docker Hub, permitindo uma fácil implantação e teste local utilizando Kubernetes.
 
 ## Docker Hub Repositórios:
 - [Imagem API de Autenticação](https://hub.docker.com/repository/docker/jvlr9510/api-autenticacao)
