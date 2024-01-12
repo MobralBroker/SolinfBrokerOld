@@ -31,15 +31,12 @@ public class AuthenticationService {
     @Autowired
     ClienteRepository clienteRepository;
     public String gerarAutenticacao(AuthenticationDTO data){
-
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
+        var auth = authenticationManager.authenticate(usernamePassword);
         return tokenService.generateToken((ClienteModel)auth.getPrincipal());
     }
 
     public ClienteModelDTO registrarCliente (RegisterDTO cliente){
-
 
         if(this.clienteRepository.findByEmail(cliente.email()) != null){
             throw new ApiRequestException("Já existe um cliente cadastrado com este e-mail.");
@@ -61,7 +58,7 @@ public class AuthenticationService {
         }
 
         Set<PermissaoModel> permissaoModels = new HashSet<>();
-        permissaoModels.add(new PermissaoModel(1L,"ROLE_USER"));
+        permissaoModels.add(new PermissaoModel(2L,"ROLE_USER"));
 
         String encryptPassword = new BCryptPasswordEncoder().encode(cliente.senha());
 

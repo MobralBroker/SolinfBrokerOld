@@ -114,7 +114,7 @@ class AuthenticationServiceTest {
     @Test
     @DisplayName("Registrar novo cliente com sucesso")
     void deveRegistrarOClienteComSucesso() {
-        PermissaoModel permissaoModel = new PermissaoModel(1L,"ROLE_USER");
+        PermissaoModel permissaoModel = new PermissaoModel(2L,"ROLE_USER");
         Set<PermissaoModel> permissaoModelSet = new HashSet<>();
         permissaoModelSet.add(permissaoModel);
 

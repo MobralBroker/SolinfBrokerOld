@@ -41,4 +41,7 @@ public class PermissaoModel {
         this.id = id;
         this.permissao = permissao;
     }
+
+    public PermissaoModel(){
+    }
 }
