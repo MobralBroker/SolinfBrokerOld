@@ -47,6 +47,7 @@ public class AuthenticationService {
 
         if(cliente.tipo().equals(enumTipoPessoa.PF)){
             if(!validacoesCliente.isValidCPF(cliente.pessoaFisica().iterator().next().getCpf())){
+
                 throw new ApiRequestException("O Cpf do cliente é inválido");
             }else{
                 if(!validacoesCliente.validacaoIdade(cliente.pessoaFisica().iterator().next().getDataNascimento())){
