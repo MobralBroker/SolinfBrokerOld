@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: dev
+spec:
+  selector:
+    app: postgresql
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30432 # Porta externa desejada
+      targetPort: 5432
+  type: NodePort
+
