@@ -28,4 +28,4 @@ jobs:
         with:
           context: ./teste-microservice/registro
           push: true
-          tags:  solinfbroker/registro-solinfbroker:${{steps.data}}
+          tags:  solinfbroker/registro-solinfbroker:1.5
