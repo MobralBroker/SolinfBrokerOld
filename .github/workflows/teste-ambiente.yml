@@ -28,14 +28,12 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: solinfbroker/registro-solinfbroker
-          
-      # Criar imagem da aplicação Registro de Serviço
-      - name: Criar imagem Registro Service
-        run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:${{ steps.meta.outputs.labels.version }} .
-          
-      # Subir imagem do registro para o dockerhub 
-      - name: Subir imagem do registro para o dockerhub
-        run: docker push solinfbroker/registro-solinfbroker --all-tags
-    
-      - name: print container
-        run: docker image ls
+
+      - name: Build and push Docker image
+        run: cd teste-microservice/registro/
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
