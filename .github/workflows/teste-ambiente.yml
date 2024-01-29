@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: data
+        id: data
+        run: date
 
      # visualizar imagem
       - name: visualizar imagem
@@ -28,4 +31,4 @@ jobs:
         with:
           context: ./teste-microservice/registro
           push: true
-          tags:  solinfbroker/registro-solinfbroker:1.5
+          tags:  solinfbroker/registro-solinfbroker:${{steps.data}}
