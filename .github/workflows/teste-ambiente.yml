@@ -17,7 +17,7 @@ jobs:
 
     # Criar imagem da aplicação Registro de Serviço
       - name: Criar imagem Registro Service
-        run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:latest .
+        run: cd teste-microservice/registro
 
      # visualizar imagem
       - name: visualizar imagem
@@ -26,7 +26,21 @@ jobs:
       # Logar na conta do DockerHub
       - name: Logar no DockerHub
         run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
-        
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: solinfbroker/registro-solinfbroker
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          
       # Subir imagem do registro para o dockerhub 
       - name: Subir imagem do registro para o dockerhub
         run: docker push solinfbroker/registro-solinfbroker --all-tags
