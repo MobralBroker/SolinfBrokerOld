@@ -1,7 +1,6 @@
-LABEL version=1.0
-
 # Estágio 1: Construção do JAR usando Maven
 FROM maven:3.8.4-openjdk-17 AS builder
+LABEL version=1.0
 
 WORKDIR /registro
 
