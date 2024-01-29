@@ -23,16 +23,9 @@ jobs:
       - name: Logar no DockerHub
         run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: solinfbroker/registro-solinfbroker
-
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: ./teste-microservice/registro
           push: true
-          tags:  ${-c date -d "%Y-%m-%d"}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags:  solinfbroker/registro-solinfbroker:1.5
