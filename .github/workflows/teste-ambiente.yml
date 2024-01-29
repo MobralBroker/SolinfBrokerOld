@@ -15,10 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-    # Criar imagem da aplicação Registro de Serviço
-      - name: Criar imagem Registro Service
-        run: cd teste-microservice/registro
-
      # visualizar imagem
       - name: visualizar imagem
         run: docker image ls
@@ -33,13 +29,9 @@ jobs:
         with:
           images: solinfbroker/registro-solinfbroker
           
-      - name: Build and push Docker image
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      # Criar imagem da aplicação Registro de Serviço
+      - name: Criar imagem Registro Service
+        run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:${{ steps.meta.outputs.tags }} .
           
       # Subir imagem do registro para o dockerhub 
       - name: Subir imagem do registro para o dockerhub
