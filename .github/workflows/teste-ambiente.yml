@@ -1,8 +1,9 @@
 name: Teste versionamento docker hub
 
 on:
-  push:
-    branches: [ "rafael" ]
+  release:
+    types:
+      - prereleased
 
 jobs:
   build-and-push-image:
@@ -34,4 +35,4 @@ jobs:
         with:
           context: ./teste-microservice/registro
           push: true
-          tags:  solinfbroker/registro-solinfbroker:${{ steps.meta.outputs.tags }}
+          tags:  solinfbroker/registro-solinfbroker:development
