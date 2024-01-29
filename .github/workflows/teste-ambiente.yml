@@ -35,4 +35,4 @@ jobs:
           context: ./teste-microservice/registro
           push: true
           tags: ${{ steps.meta.outputs.tags.version }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.tags }}
