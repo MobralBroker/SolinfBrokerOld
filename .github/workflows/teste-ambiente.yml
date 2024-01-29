@@ -31,7 +31,7 @@ jobs:
           
       # Criar imagem da aplicação Registro de Serviço
       - name: Criar imagem Registro Service
-        run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:${{ steps.meta.outputs.tags }} .
+        run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:${{ steps.meta.outputs.labels.versao }} .
           
       # Subir imagem do registro para o dockerhub 
       - name: Subir imagem do registro para o dockerhub
