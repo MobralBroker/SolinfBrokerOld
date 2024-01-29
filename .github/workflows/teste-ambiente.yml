@@ -14,9 +14,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: data
-        id: data
-        run: date
 
      # visualizar imagem
       - name: visualizar imagem
