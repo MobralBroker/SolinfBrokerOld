@@ -17,7 +17,7 @@ jobs:
 
      # visualizar imagem
       - name: visualizar imagem
-        run: docker image ls
+        run: docker image ls   
       
       # Logar na conta do DockerHub
       - name: Logar no DockerHub
