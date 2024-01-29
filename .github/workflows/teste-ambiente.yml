@@ -5,29 +5,31 @@ on:
     branches: [ "rafael" ]
 
 jobs:
-
-  build:
-
+  build-and-push-image:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
     # Criar imagem da aplicação Registro de Serviço
-    - name: Criar imagem Registro Service
-      run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:${{secrets.DOCKER_HUB_TAG}} .
+      - name: Criar imagem Registro Service
+        run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:${{secrets.DOCKER_HUB_TAG}} .
 
-    # visualizar imagem
-    - name: visualizar imagem
-      run: docker image ls
+     # visualizar imagem
+      - name: visualizar imagem
+        run: docker image ls
       
-    # Logar na conta do DockerHub
-    - name: Logar no DockerHub
-      run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
+      # Logar na conta do DockerHub
+      - name: Logar no DockerHub
+        run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
+        
+      # Subir imagem do registro para o dockerhub 
+      - name: Subir imagem do registro para o dockerhub
+        run: docker push solinfbroker/registro-solinfbroker --all-tags
     
-    # Subir imagem do registro para o dockerhub 
-    - name: Subir imagem do registro para o dockerhub
-      run: docker push solinfbroker/registro-solinfbroker --all-tags
-
-    - name: print container
-      run: docker image ls
+      - name: print container
+        run: docker image ls
