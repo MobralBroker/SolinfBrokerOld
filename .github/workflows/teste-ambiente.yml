@@ -34,5 +34,5 @@ jobs:
         with:
           context: ./teste-microservice/registro
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags:  ${-c date -d "%Y-%m-%d"}
           labels: ${{ steps.meta.outputs.labels }}
