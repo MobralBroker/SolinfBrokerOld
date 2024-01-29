@@ -2,32 +2,25 @@ name: Teste versionamento docker hub
 
 on:
   push:
-    branches: [ "TesteGitBruce" ]
+    branches: [ "rafael" ]
 
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
-    permissions:   
+    permissions:
       contents: read
       packages: write
-   
+
     steps:
-      - name: Checkout repository  
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: visualizar imagem
-        run: docker image ls
-
-      - name: Logar no DockerHub
-        run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
-
-      - name: Obter a última tag de versão
-        id: get_version
-        run: echo ::set-output name=version::$(git describe --tags --abbrev=0)
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-        with:
-          context: ./teste-microservice/registro
-          push: true
-          tags: solinfbroker/registro-solinfbroker:${{ steps.get_version.outputs.version }}
+    - name: Logar no DockerHub
+      run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}} docker.io
+      
+    - name: Build and push Docker image
+      uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      with:
+        context: ./teste-microservice/registro
+        push: true
+        tags: solinfbroker/registro-solinfbroker:latest  # Defina sua tag aqui
