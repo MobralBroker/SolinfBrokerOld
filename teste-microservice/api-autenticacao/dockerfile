@@ -1,4 +1,6 @@
 # Estágio 1: Construção do JAR usando Maven
+LABEL version=1.0
+
 FROM maven:3.8.4-openjdk-17 AS builder
 
 WORKDIR /api-autenticacao
