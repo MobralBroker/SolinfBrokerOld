@@ -5,18 +5,28 @@ on:
     branches: [ "rafael" ]
 
 jobs:
-
   build: 
-
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
     
     steps:
     - uses: actions/checkout@v3
 
     # Criar imagem da aplicação Registro de Serviço
-    - name: Criar imagem Registro Service
-      run: cd teste-microservice/registro/ && docker build -t solinfbroker/registro-solinfbroker:0.0.1 -t solinfbroker/registro-solinfbroker:latest .
-
+    - name: Extract metadata (tags, labels)
+      id: meta
+      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      with:
+        images: my-docker-hub-namespace/my-docker-hub-repository
+      
+    - name: Build and push Docker image
+      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+    
     # visualizar imagem
     - name: visualizar imagem
       run: docker image ls
@@ -31,49 +41,3 @@ jobs:
 
     - name: print container
       run: docker image ls
-
-  gerar-release:
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: mostrar releases
-      id: tag-release
-      run: |
-         VERSAO_API=$(gh release view --json tagName -q ".tagName" || echo '0.0.1')
-         echo "VERSAO_API=${VERSAO_API}" >> $GITHUB_ENV
-         echo "VERSAO_API=${VERSAO_API}" >> $GITHUB_OUTPUT
-        #  echo "::set-output name=VERSAO_API::$VERSAO_API" echo "VERSAO_API=VERSAO_API" >> "$GITHUB_OUTPUT"
-      env:
-        GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
-      # run:  echo 'VERSAO_API=gh release view --json tagName -q ".tagName"'' >> "$GITHUB_ENV" #echo gh release view --json tagName -q ".tagName"
-      # env:
-      #   GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }
-
-    - name: criar release
-      run: gh release create ${{ steps.tag-release.outputs.VERSAO_API }} --title "v${{ steps.tag-release.outputs.VERSAO_API }} (teste)" --notes "teste de release"
-      env:
-        GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
-      
-    # - name: criar release
-    #   run: gh release create $VERSAO_API --title "v$VERSAO_API (teste)" --notes "teste de release"
-    #   env:
-    #     GH_TOKEN: ${{ secrets.TOKEN_MICHAEL }}
-    #     # VERSAO_API: ${{ steps.tag-release.outputs.VERSAO_API }
-
-  # teste:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-    
-  #   steps:
-  #   - uses: actions/checkout@v3
-
-  #   # Baixar imagem
-  #   - name: Baixar imagem
-  #     run: docker pull solinfbroker/registro-solinfbroker:latest
-
-  #   - name: print container
-  #     run: docker image ls
-  
