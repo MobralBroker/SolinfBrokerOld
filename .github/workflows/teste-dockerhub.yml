@@ -2,7 +2,7 @@ name: Teste versionamento docker hub
 
 on:
   push:
-    branches: [ "michael" ]
+    branches: [ "rafael" ]
 
 jobs:
 
